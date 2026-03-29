@@ -1,0 +1,25 @@
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# Spec docs (not needed in repo)
+*.docx
+
+# Mod build outputs
+build/
+.gradle/
+out/
+
+# Run directories (Forge/Fabric dev)
+run/
+
+# Generated resources
+src/generated/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/settings.json
+*.iml

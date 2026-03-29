@@ -1,0 +1,10 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.minecraftforge.net/' }
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+// Replace "starter" with your mod ID (lowercase_with_underscores)
+rootProject.name = 'starter'

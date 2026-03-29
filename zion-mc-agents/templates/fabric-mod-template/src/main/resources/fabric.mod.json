@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "starter",
+  "version": "${version}",
+  "name": "Starter Mod",
+  "description": "A starter mod built by Zion's AI Stack.",
+  "authors": [ "Zion Alexander" ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [ "com.zionmc.starter.StarterMod" ],
+    "client": [ "com.zionmc.starter.StarterModClient" ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.21.4",
+    "java": ">=21"
+  }
+}
