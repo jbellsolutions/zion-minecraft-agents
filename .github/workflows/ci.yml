@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Agent Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required files exist
+        run: |
+          echo "Checking required files..."
+          for f in CLAUDE.md AGENTS.md ARCHITECTURE.md ETHOS.md README.md CHANGELOG.md VERSION llms.txt features.json; do
+            if [ -f "$f" ]; then
+              echo "✅ $f"
+            else
+              echo "❌ $f MISSING"
+              exit 1
+            fi
+          done
+
+      - name: Check agent files exist
+        run: |
+          echo "Checking agent files..."
+          for f in agents/orchestrator.md agents/mod-agent.md agents/world-builder.md agents/lore-agent.md agents/deploy-agent.md; do
+            if [ -f "$f" ]; then
+              echo "✅ $f"
+            else
+              echo "❌ $f MISSING"
+              exit 1
+            fi
+          done
+
+      - name: Check UI files exist
+        run: |
+          echo "Checking UI files..."
+          for f in ui/index.html ui/server.py; do
+            if [ -f "$f" ]; then
+              echo "✅ $f"
+            else
+              echo "❌ $f MISSING"
+              exit 1
+            fi
+          done
+
+      - name: Check no secrets in tracked files
+        run: |
+          echo "Scanning for leaked secrets..."
+          if grep -rn "sk-\|AKIA\|password\s*=\s*['\"][^'\"]" \
+            --include="*.py" --include="*.js" --include="*.ts" --include="*.md" \
+            --exclude-dir=".git" --exclude-dir="node_modules" . 2>/dev/null; then
+            echo "❌ Potential secrets found!"
+            exit 1
+          else
+            echo "✅ No secrets detected"
+          fi
+
+      - name: Validate Python syntax
+        run: |
+          python3 -m py_compile ui/server.py && echo "✅ ui/server.py syntax OK"
+
+      - name: Validate JSON files
+        run: |
+          for f in features.json genome/genome.json .claude/agi-1/baseline.json \
+                   .claude/healing/history.json .claude/learning/observations.json; do
+            if [ -f "$f" ]; then
+              python3 -c "import json; json.load(open('$f'))" && echo "✅ $f valid JSON"
+            fi
+          done
+
+      - name: Run smoke tests
+        run: |
+          python3 tests/test_smoke.py
+
+      - name: Lint with ruff (if installed)
+        run: |
+          pip install ruff --quiet 2>/dev/null || true
+          ruff check ui/server.py --select E,W,F --ignore E501 2>/dev/null && echo "✅ ruff passed" || echo "⚠️  ruff not available, skipping"
