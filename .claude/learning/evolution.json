@@ -1,0 +1,58 @@
+{
+  "version": "1.0.0",
+  "repo": "zion-minecraft-agents",
+  "cycles": [
+    {
+      "cycle_id": "evo-001",
+      "completed": "2026-03-29T03:30:00Z",
+      "observations_processed": 12,
+      "insights": [
+        {
+          "id": "insight-001",
+          "type": "config_constraint",
+          "summary": "Claude Code settings.json only accepts permissions and hooks as top-level keys",
+          "confidence": 1.0,
+          "source_observations": ["obs-002", "obs-007"],
+          "action": "Documented in CLAUDE.md; validated by failed Edit rejection"
+        },
+        {
+          "id": "insight-002",
+          "type": "test_strategy",
+          "summary": "Secret-scan tests must exclude .md files to avoid false positives on documented examples",
+          "confidence": 1.0,
+          "source_observations": ["obs-001"],
+          "action": "Applied to tests/test_smoke.py regex exclusion"
+        },
+        {
+          "id": "insight-003",
+          "type": "docker_pattern",
+          "summary": "python:3.11-slim has no curl; use urllib.request for container healthchecks",
+          "confidence": 1.0,
+          "source_observations": ["obs-010"],
+          "action": "Applied to Dockerfile HEALTHCHECK"
+        },
+        {
+          "id": "insight-004",
+          "type": "build_pattern",
+          "summary": "gradlew clean build required for symbol-not-found Forge failures; plain build insufficient",
+          "confidence": 0.9,
+          "source_observations": ["obs-004", "obs-012"],
+          "action": "Encoded in healing pattern forge-build-failure"
+        },
+        {
+          "id": "insight-005",
+          "type": "skill_pattern",
+          "summary": "SKILL.md allowed-tools must include Agent for any skill that delegates to sub-agents",
+          "confidence": 1.0,
+          "source_observations": ["obs-005"],
+          "action": "Applied to skills/zion/SKILL.md frontmatter"
+        }
+      ],
+      "patterns_promoted": ["forge-build-failure", "server-start-failure", "ui-server-port-conflict"],
+      "genome_contributions": 3
+    }
+  ],
+  "last_cycle": "evo-001",
+  "total_insights": 5,
+  "note": "Cycle evo-001 completed during AGI-1 pipeline run on 2026-03-29."
+}

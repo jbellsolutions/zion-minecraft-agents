@@ -1,0 +1,61 @@
+{
+  "version": "1.0.0",
+  "repo": "zion-minecraft-agents",
+  "last_updated": "2026-03-29T00:00:00Z",
+  "patterns": [
+    {
+      "id": "forge-build-failure",
+      "category": "build",
+      "trigger": "FAILURE|BUILD FAILED|error: cannot find symbol",
+      "classification": "Forge/Gradle build failure during mod compilation",
+      "fix": {
+        "strategy": "run-command",
+        "target": "build/",
+        "content": "cd build && ./gradlew clean build --stacktrace 2>&1 | tail -40"
+      },
+      "confidence": 0.85,
+      "applications": 2,
+      "successes": 2,
+      "times_fixed": 2,
+      "created": "2026-03-29T00:00:00Z",
+      "last_applied": "2026-03-29T02:31:00Z",
+      "source_repo": "zion-minecraft-agents"
+    },
+    {
+      "id": "server-start-failure",
+      "category": "runtime",
+      "trigger": "Could not find Forge server JAR|server.pid|Address already in use",
+      "classification": "Minecraft server failed to start or port already bound",
+      "fix": {
+        "strategy": "run-command",
+        "target": "server/start.sh",
+        "content": "pkill -f 'forge.*server' 2>/dev/null || true; sleep 3; bash server/start.sh"
+      },
+      "confidence": 0.9,
+      "applications": 1,
+      "successes": 1,
+      "times_fixed": 1,
+      "created": "2026-03-29T00:00:00Z",
+      "last_applied": "2026-03-29T02:05:00Z",
+      "source_repo": "zion-minecraft-agents"
+    },
+    {
+      "id": "ui-server-port-conflict",
+      "category": "runtime",
+      "trigger": "Address already in use|OSError: \\[Errno 48\\]|port 8765",
+      "classification": "UI server port 8765 already occupied",
+      "fix": {
+        "strategy": "run-command",
+        "target": "ui/server.py",
+        "content": "lsof -ti:8765 | xargs kill -9 2>/dev/null || true; sleep 1; python3 ui/server.py"
+      },
+      "confidence": 0.95,
+      "applications": 2,
+      "successes": 2,
+      "times_fixed": 2,
+      "created": "2026-03-29T00:00:00Z",
+      "last_applied": "2026-03-29T03:00:00Z",
+      "source_repo": "zion-minecraft-agents"
+    }
+  ]
+}

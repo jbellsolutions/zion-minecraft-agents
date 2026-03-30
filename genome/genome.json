@@ -1,14 +1,88 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-03-29T00:00:00Z",
-  "healing_patterns": [],
-  "instruction_improvements": [],
-  "skills": [],
+  "last_updated": "2026-03-29T03:30:00Z",
+  "healing_patterns": [
+    {
+      "id": "forge-build-failure",
+      "category": "build",
+      "trigger": "FAILURE|BUILD FAILED|error: cannot find symbol",
+      "fix_strategy": "gradlew clean build",
+      "confidence": 0.85,
+      "applications": 2,
+      "successes": 2,
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    },
+    {
+      "id": "server-start-failure",
+      "category": "runtime",
+      "trigger": "Could not find Forge server JAR|Address already in use",
+      "fix_strategy": "pkill forge; sleep 3; restart",
+      "confidence": 0.9,
+      "applications": 1,
+      "successes": 1,
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    },
+    {
+      "id": "ui-server-port-conflict",
+      "category": "runtime",
+      "trigger": "Address already in use|OSError: [Errno 48]",
+      "fix_strategy": "lsof -ti:<port> | xargs kill -9; restart",
+      "confidence": 0.95,
+      "applications": 2,
+      "successes": 2,
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    }
+  ],
+  "instruction_improvements": [
+    {
+      "id": "imp-001",
+      "context": "claude_settings",
+      "insight": "Claude Code settings.json only allows permissions and hooks as top-level keys. Lint/format/other custom keys are rejected by the validator.",
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    },
+    {
+      "id": "imp-002",
+      "context": "test_design",
+      "insight": "Secret-scan tests must exclude .md files. Documentation legitimately contains placeholder API key examples like sk-ant-... which triggers false positives.",
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    },
+    {
+      "id": "imp-003",
+      "context": "docker",
+      "insight": "python:3.11-slim images have no curl. Use python3 -c 'import urllib.request; urllib.request.urlopen(...)' for healthchecks.",
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-zion",
+      "name": "zion",
+      "description": "Minecraft mod builder for a 5-year-old. Routes plain-English requests through orchestrator → mod/world/lore agents → deploy agent.",
+      "iron_law": "Server must be in playable state when skill completes. Never ask the user a question.",
+      "contributed_by": "zion-minecraft-agents",
+      "contributed_at": "2026-03-29T03:30:00Z"
+    }
+  ],
   "changelog": [
     {
       "date": "2026-03-29T00:00:00Z",
       "action": "initialized",
-      "description": "Empty genome snapshot for zion-minecraft-agents. Synced from shared genome on first /agi-sync run."
+      "description": "Empty genome snapshot initialized."
+    },
+    {
+      "date": "2026-03-29T03:30:00Z",
+      "action": "genome_push",
+      "description": "AGI-1 pipeline cycle evo-001 completed. Pushed 3 healing patterns, 3 instruction improvements, 1 skill to genome.",
+      "cycle_id": "evo-001",
+      "patterns_pushed": 3,
+      "improvements_pushed": 3,
+      "skills_pushed": 1
     }
   ]
 }

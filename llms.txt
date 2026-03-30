@@ -1,0 +1,52 @@
+# zion-minecraft-agents
+
+A plug-and-play AI mod builder for Minecraft Java Edition 1.21.4 (Forge 54.x).
+Designed for a 5-year-old: one text input, one button, mod installs automatically.
+
+## What It Does
+
+Converts natural language requests ("add a fire dragon boss") into:
+1. Compiled Forge mods (Java) or JSON datapacks
+2. Automatic installation to the Minecraft server
+3. Server restart — Zion joins and plays immediately
+
+## Agent Pipeline
+
+- `agents/orchestrator.md` — Routes requests, never asks clarifying questions
+- `agents/mod-agent.md` — Builds Java Forge 1.21.4 mods (mobs, items, blocks, armor)
+- `agents/world-builder.md` — Builds JSON datapacks (biomes, structures, loot tables)
+- `agents/lore-agent.md` — Writes quests, NPC dialogue, written books
+- `agents/deploy-agent.md` — Installs files, backs up, restarts server
+
+## UI
+
+Python stdlib HTTP server (`ui/server.py`) + single HTML file (`ui/index.html`).
+No npm, no pip, no build step. Launched via double-click `.command` file.
+
+## Stack
+
+- Minecraft Java Edition 1.21.4
+- Forge 54.x
+- Java 21 + Gradle 8.x
+- Python 3 (stdlib only)
+- Claude Code CLI
+
+## Server
+
+Default path: `/Users/justin/minecraft-server`
+Configurable in `CLAUDE.md` and `agents/deploy-agent.md`.
+
+## Rules
+
+1. Never ask the user (Zion) a question — make a creative decision and proceed
+2. Always back up `/mods` before any deploy
+3. Always restart the server after installing
+4. If deploy fails, restore backup and restart anyway
+5. Keep everything kid-friendly
+
+## AGI-1 Framework
+
+Self-healing: `.claude/healing/patterns/` logs error→fix patterns.
+Self-learning: `.claude/learning/observations.json` auto-logs failures via hooks.
+Genome: `~/.claude/agi-1-genome/genome.json` accumulates patterns across repos.
+Session orchestrator: `/agi-main` gives repo health brief and routing.

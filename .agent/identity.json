@@ -1,0 +1,30 @@
+{
+  "project_name": "zion-minecraft-agents",
+  "description": "Plug-and-play AI mod builder for Minecraft Java 1.21.4. Converts a 5-year-old's natural language requests into installed Forge mods with automatic server restart. No manual steps.",
+  "repo_path": "/Users/justinbellware/Desktop/Zion Minecraft Mods",
+  "language": "python",
+  "secondary_languages": ["java", "markdown", "json", "bash"],
+  "framework": "Forge 54.x / Minecraft 1.21.4",
+  "entry_points": [
+    "ui/server.py",
+    "🎮 ZION'S MOD BUILDER.command"
+  ],
+  "key_components": [
+    "agents/ — specialist agent system prompts",
+    "ui/ — kid-friendly web interface",
+    "server/ — Forge server restart script",
+    ".claude/ — Claude Code config, healing, learning",
+    ".agent/ — Level 2 persistent agent"
+  ],
+  "fragile_areas": [
+    "Forge JAR compilation (Gradle/Java version sensitivity)",
+    "Server path hardcoded to /Users/justin/minecraft-server — must match actual path",
+    "Server restart timing — needs sleep after stop before start"
+  ],
+  "integration_points": [
+    "/Users/justin/minecraft-server — Minecraft server root",
+    "claude CLI — invoked by ui/server.py to run agents"
+  ],
+  "created": "2026-03-29T00:00:00Z",
+  "agi_version": "1.0.0"
+}

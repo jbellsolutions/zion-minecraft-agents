@@ -1,0 +1,5 @@
+# zion-minecraft-agents — Python dependencies
+# ui/server.py uses Python stdlib only — no pip installs needed for core functionality.
+# Optional: install anthropic for the Level 2 persistent agent (.agent/agent.py)
+
+# anthropic>=0.25.0  # Uncomment for .agent/agent.py Level 2 persistent orchestrator

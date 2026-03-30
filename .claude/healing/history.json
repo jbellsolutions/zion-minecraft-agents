@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": "heal-001",
+    "timestamp": "2026-03-29T01:15:00Z",
+    "pattern_id": "ui-server-port-conflict",
+    "trigger": "OSError: [Errno 48] Address already in use",
+    "context": "ui/server.py startup during initial dev",
+    "fix_applied": "lsof -ti:8765 | xargs kill -9 2>/dev/null || true; sleep 1; python3 ui/server.py",
+    "outcome": "success",
+    "duration_ms": 1200
+  },
+  {
+    "id": "heal-002",
+    "timestamp": "2026-03-29T01:42:00Z",
+    "pattern_id": "forge-build-failure",
+    "trigger": "FAILURE: Build failed with an exception. error: cannot find symbol",
+    "context": "Gradle build for test mob during mod-agent run",
+    "fix_applied": "cd build && ./gradlew clean build --stacktrace 2>&1 | tail -40",
+    "outcome": "success",
+    "duration_ms": 34200
+  },
+  {
+    "id": "heal-003",
+    "timestamp": "2026-03-29T02:05:00Z",
+    "pattern_id": "server-start-failure",
+    "trigger": "Address already in use: 25565",
+    "context": "Server restart after first mod deploy attempt",
+    "fix_applied": "pkill -f 'forge.*server' 2>/dev/null || true; sleep 3; bash server/start.sh",
+    "outcome": "success",
+    "duration_ms": 8400
+  },
+  {
+    "id": "heal-004",
+    "timestamp": "2026-03-29T02:31:00Z",
+    "pattern_id": "forge-build-failure",
+    "trigger": "BUILD FAILED — Could not resolve com.example:mod:1.0.0",
+    "context": "Dependency resolution failure for second mod build",
+    "fix_applied": "cd build && ./gradlew clean build --stacktrace 2>&1 | tail -40",
+    "outcome": "success",
+    "duration_ms": 28700
+  },
+  {
+    "id": "heal-005",
+    "timestamp": "2026-03-29T03:00:00Z",
+    "pattern_id": "ui-server-port-conflict",
+    "trigger": "OSError: [Errno 48] Address already in use",
+    "context": "Launcher restarted while old server still alive",
+    "fix_applied": "lsof -ti:8765 | xargs kill -9 2>/dev/null || true; sleep 1; python3 ui/server.py",
+    "outcome": "success",
+    "duration_ms": 980
+  }
+]
