@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zion's Minecraft Mod Builder</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a2e;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, #16213e 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, #0f3460 0%, transparent 50%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    overflow-x: hidden;
+  }
+
+  /* Floating stars */
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: min(700px, 95vw);
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* Title */
+  .title {
+    font-size: clamp(18px, 4vw, 32px);
+    color: #55ff55;
+    text-shadow:
+      0 0 10px #00ff00,
+      0 0 30px #00aa00,
+      4px 4px 0px #003300;
+    margin-bottom: 8px;
+    animation: pulse-title 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-title {
+    0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 30px #00aa00, 4px 4px 0px #003300; }
+    50% { text-shadow: 0 0 20px #00ff00, 0 0 60px #00ff00, 4px 4px 0px #003300; }
+  }
+
+  .subtitle {
+    font-size: clamp(8px, 2vw, 12px);
+    color: #aaffaa;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0px #003300;
+  }
+
+  /* Creeper face decoration */
+  .creeper {
+    font-size: 60px;
+    margin-bottom: 10px;
+    animation: bounce 1.5s ease-in-out infinite;
+    display: block;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Main card */
+  .card {
+    background: linear-gradient(135deg, #1e3a1e, #0d2b0d);
+    border: 4px solid #55ff55;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow:
+      0 0 20px #00ff0044,
+      0 0 60px #00ff0011,
+      inset 0 0 20px #00ff0011;
+    margin-bottom: 20px;
+  }
+
+  /* Quick picks */
+  .quick-label {
+    color: #ffff55;
+    font-size: 9px;
+    margin-bottom: 12px;
+    text-shadow: 2px 2px 0 #444400;
+  }
+
+  .quick-picks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .quick-btn {
+    background: #2d1b00;
+    border: 2px solid #ffaa00;
+    color: #ffdd88;
+    font-family: inherit;
+    font-size: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+    text-shadow: 1px 1px 0 #000;
+  }
+
+  .quick-btn:hover {
+    background: #ffaa00;
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #ffaa00;
+  }
+
+  /* Input area */
+  .input-label {
+    color: #aaffaa;
+    font-size: 9px;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+  }
+
+  textarea {
+    width: 100%;
+    height: 100px;
+    background: #0a1a0a;
+    border: 3px solid #339933;
+    color: #55ff55;
+    font-family: inherit;
+    font-size: clamp(10px, 2vw, 14px);
+    padding: 12px;
+    border-radius: 4px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+
+  textarea::placeholder { color: #1a4a1a; }
+  textarea:focus { border-color: #55ff55; box-shadow: 0 0 10px #00ff0044; }
+
+  /* BIG BUILD BUTTON */
+  .build-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 20px;
+    background: linear-gradient(180deg, #22aa22, #115511);
+    border: none;
+    border-bottom: 6px solid #004400;
+    border-right: 4px solid #004400;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: clamp(14px, 3vw, 20px);
+    cursor: pointer;
+    border-radius: 6px;
+    text-shadow: 2px 2px 0 #003300;
+    transition: all 0.1s;
+    box-shadow: 0 0 20px #00880044;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .build-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #ffffff22, transparent);
+  }
+
+  .build-btn:hover {
+    background: linear-gradient(180deg, #33cc33, #226622);
+    box-shadow: 0 0 30px #00ff0066;
+    transform: translateY(-2px);
+  }
+
+  .build-btn:active {
+    transform: translateY(4px);
+    border-bottom-width: 2px;
+    box-shadow: none;
+  }
+
+  .build-btn:disabled {
+    background: linear-gradient(180deg, #555, #333);
+    border-color: #222;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Status area */
+  .status-box {
+    background: #050f05;
+    border: 3px solid #224422;
+    border-radius: 6px;
+    padding: 16px;
+    min-height: 80px;
+    text-align: left;
+    transition: border-color 0.3s;
+  }
+
+  .status-box.running { border-color: #ffff00; animation: pulse-border 1s infinite; }
+  .status-box.done { border-color: #55ff55; }
+  .status-box.error { border-color: #ff5555; }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00; }
+    50% { border-color: #ffaa00; box-shadow: 0 0 20px #ffaa00; }
+  }
+
+  .status-label {
+    font-size: 8px;
+    margin-bottom: 8px;
+  }
+  .status-label.idle { color: #336633; }
+  .status-label.running { color: #ffff00; }
+  .status-label.done { color: #55ff55; }
+  .status-label.error { color: #ff5555; }
+
+  .status-text {
+    color: #aaffaa;
+    font-size: 9px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  /* Spinning pickaxe */
+  .spinner {
+    display: inline-block;
+    animation: spin 0.5s linear infinite;
+    margin-right: 8px;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 6px;
+    background: #0a1a0a;
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+    display: none;
+  }
+  .progress-bar.active { display: block; }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00ff00, #55ff55);
+    border-radius: 3px;
+    animation: progress 90s linear forwards;
+    box-shadow: 0 0 8px #00ff00;
+  }
+  @keyframes progress { to { width: 95%; } }
+
+  /* Footer */
+  .footer {
+    color: #224422;
+    font-size: 7px;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="container">
+  <span class="creeper">🟩</span>
+  <div class="title">ZION'S MOD BUILDER</div>
+  <div class="subtitle">✨ Type what you want &amp; press BUILD! ✨</div>
+
+  <div class="card">
+    <div class="quick-label">⚡ QUICK IDEAS — TAP ONE!</div>
+    <div class="quick-picks">
+      <button class="quick-btn" onclick="setRequest('Add a fire dragon boss that drops diamonds')">🐉 Fire Dragon Boss</button>
+      <button class="quick-btn" onclick="setRequest('Add a rainbow sword that shoots lightning')">⚡ Lightning Sword</button>
+      <button class="quick-btn" onclick="setRequest('Add a friendly unicorn pet that follows me')">🦄 Unicorn Pet</button>
+      <button class="quick-btn" onclick="setRequest('Add a giant spider boss with 100 health')">🕷️ Giant Spider Boss</button>
+      <button class="quick-btn" onclick="setRequest('Add super diamond armor that glows blue')">💎 Glow Armor</button>
+      <button class="quick-btn" onclick="setRequest('Add a magic wand that spawns TNT explosions')">💥 Magic Wand</button>
+      <button class="quick-btn" onclick="setRequest('Add a secret underground candy dungeon with treasure')">🍬 Candy Dungeon</button>
+      <button class="quick-btn" onclick="setRequest('Add a robot wolf that helps me fight enemies')">🤖 Robot Wolf</button>
+    </div>
+
+    <label class="input-label">📝 OR TYPE YOUR OWN IDEA:</label>
+    <textarea
+      id="request"
+      placeholder="Add a giant purple dinosaur that breathes fire and drops candy..."
+    ></textarea>
+
+    <button class="build-btn" id="buildBtn" onclick="startBuild()">
+      ⚒️ BUILD IT!
+    </button>
+  </div>
+
+  <div class="status-box" id="statusBox">
+    <div class="status-label idle" id="statusLabel">STATUS</div>
+    <div class="status-text" id="statusText">Ready to build something awesome! 🎮</div>
+    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="footer">Zion's World • Powered by AI Magic ✨</div>
+</div>
+
+<script>
+// Generate stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 3 + 1;
+  star.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    animation-delay:${Math.random()*3}s;
+    animation-duration:${2+Math.random()*3}s;
+  `;
+  starsEl.appendChild(star);
+}
+
+function setRequest(text) {
+  document.getElementById('request').value = text;
+  document.getElementById('request').focus();
+}
+
+let pollInterval = null;
+
+function startBuild() {
+  const text = document.getElementById('request').value.trim();
+  if (!text) {
+    setStatus('error', 'ERROR', '⚠️ Type what you want first!');
+    return;
+  }
+
+  const btn = document.getElementById('buildBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ BUILDING...';
+
+  setStatus('running', '⚒️ BUILDING YOUR MOD...', '🔨 The AI is working on it!\nThis takes 2-5 minutes...\n\nDon\'t close this window! ✨');
+
+  // Show progress bar
+  const pb = document.getElementById('progressBar');
+  pb.classList.add('active');
+  pb.querySelector('.progress-fill').style.animation = 'none';
+  void pb.querySelector('.progress-fill').offsetHeight; // reflow
+  pb.querySelector('.progress-fill').style.animation = 'progress 90s linear forwards';
+
+  fetch('/build', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ request: text })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.error) {
+      doneBuilding('error', data.error);
+    } else {
+      pollInterval = setInterval(checkStatus, 3000);
+    }
+  })
+  .catch(e => doneBuilding('error', 'Could not connect to the builder. Is it running?'));
+}
+
+function checkStatus() {
+  fetch('/status')
+    .then(r => r.json())
+    .then(data => {
+      if (data.status === 'done') {
+        clearInterval(pollInterval);
+        doneBuilding('done', data.text);
+      } else if (data.status === 'error') {
+        clearInterval(pollInterval);
+        doneBuilding('error', data.text);
+      }
+    })
+    .catch(() => {});
+}
+
+function doneBuilding(type, text) {
+  const btn = document.getElementById('buildBtn');
+  btn.disabled = false;
+  btn.textContent = '⚒️ BUILD IT!';
+
+  document.getElementById('progressBar').classList.remove('active');
+
+  if (type === 'done') {
+    setStatus('done', '✅ DONE! JOIN THE GAME!', '🎉 Your mod is installed!\n\n' + cleanOutput(text));
+  } else {
+    setStatus('error', '❌ SOMETHING WENT WRONG', text);
+  }
+}
+
+function cleanOutput(text) {
+  // Extract the last meaningful line(s) for kid display
+  const lines = text.split('\n').filter(l => l.trim());
+  // Look for success messages
+  const successLine = lines.find(l =>
+    l.includes('Server') || l.includes('restart') || l.includes('Done') ||
+    l.includes('install') || l.includes('ready') || l.includes('READY')
+  );
+  if (successLine) return successLine;
+  return lines[lines.length - 1] || 'All done!';
+}
+
+function setStatus(type, label, text) {
+  const box = document.getElementById('statusBox');
+  const lbl = document.getElementById('statusLabel');
+  const txt = document.getElementById('statusText');
+  box.className = 'status-box ' + type;
+  lbl.className = 'status-label ' + type;
+  lbl.textContent = label;
+  txt.textContent = text;
+}
+
+// Enter key submits
+document.getElementById('request').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.ctrlKey) startBuild();
+});
+</script>
+</body>
+</html>

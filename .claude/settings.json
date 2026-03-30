@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "WebFetch(*)",
+      "TodoWrite(*)",
+      "Agent(*)"
+    ],
+    "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs');const r=JSON.parse(process.env.CLAUDE_TOOL_RESULT||'{}');if(r.exit_code&&r.exit_code!==0){const p='.claude/learning/observations.json';let obs=[];try{obs=JSON.parse(fs.readFileSync(p,'utf8'))}catch(e){}obs.push({type:'error',tool:'Bash',error_text:(r.output||'').slice(0,500),timestamp:new Date().toISOString(),source:'hook-auto',status:'pending'});try{fs.mkdirSync('.claude/learning',{recursive:true})}catch(e){}fs.writeFileSync(p,JSON.stringify(obs,null,2))}\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs');const p='.claude/learning/observations.json';let obs=[];try{obs=JSON.parse(fs.readFileSync(p,'utf8'))}catch(e){}const sp='.agent/state.json';let state={};try{state=JSON.parse(fs.readFileSync(sp,'utf8'))}catch(e){}const count=(state.session_count||0)+1;if(count%10===0){obs.push({type:'session_milestone',session_count:count,note:'Run /agi-learn to process accumulated observations',timestamp:new Date().toISOString(),source:'hook-auto',status:'pending'})}state.session_count=count;state.last_session=new Date().toISOString();try{fs.mkdirSync('.claude/learning',{recursive:true})}catch(e){}fs.writeFileSync(p,JSON.stringify(obs,null,2));try{fs.mkdirSync('.agent',{recursive:true})}catch(e){}try{fs.writeFileSync(sp,JSON.stringify(state,null,2))}catch(e){}\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

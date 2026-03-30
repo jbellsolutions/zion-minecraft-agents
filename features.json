@@ -1,0 +1,33 @@
+{
+  "project": "zion-minecraft-agents",
+  "tasks": [
+    {
+      "id": "setup-server-path",
+      "name": "Configure server path",
+      "description": "Set the correct Minecraft server path in CLAUDE.md and deploy-agent.md — currently set to /Users/justin/minecraft-server",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "id": "test-build-pipeline",
+      "name": "Test mod build pipeline",
+      "description": "Run a test Forge build to verify Gradle and Java 21 are working correctly",
+      "status": "pending",
+      "priority": "high"
+    },
+    {
+      "id": "test-deploy",
+      "name": "Test deploy + server restart",
+      "description": "Deploy a simple test mod and confirm the server restarts cleanly",
+      "status": "pending",
+      "priority": "medium"
+    },
+    {
+      "id": "l2-agent",
+      "name": "Upgrade to Level 2 persistent agent",
+      "description": "Run /agi-upgrade-l2 to get cross-session memory and scheduled heal checks",
+      "status": "pending",
+      "priority": "low"
+    }
+  ]
+}

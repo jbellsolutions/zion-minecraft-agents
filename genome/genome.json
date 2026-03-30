@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-03-29T00:00:00Z",
+  "healing_patterns": [],
+  "instruction_improvements": [],
+  "skills": [],
+  "changelog": [
+    {
+      "date": "2026-03-29T00:00:00Z",
+      "action": "initialized",
+      "description": "Empty genome snapshot for zion-minecraft-agents. Synced from shared genome on first /agi-sync run."
+    }
+  ]
+}
