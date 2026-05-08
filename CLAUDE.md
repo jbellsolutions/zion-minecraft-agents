@@ -77,13 +77,24 @@ Before starting any session:
 - [ ] Confirm server path is correct (`/Users/justin/minecraft-server`)
 - [ ] Read `claude-progress.txt` for last session context
 - [ ] Check `features.json` for pending tasks
-- [ ] Run `/agi-main` for a full repo health brief
+- [ ] 
 
 ## Session Start
 
-Run `/agi-main` at the start of each session for a repo health brief.
+Read `claude-progress.txt` at the start of each session for context from the last build.
 
 ---
+
+
+## Slash Commands
+
+| Command | What It Does |
+|---------|-------------|
+| `/zion <request>` | Build anything — Zion types what they want, you build it |
+| `/rollback` | List last 5 mod backups and restore one |
+| `/icon <mod name>` | Generate a Minecraft pixel art icon for a mod |
+| `/library` | Show all mods Zion has built |
+| `/status` | Check if the server is running and what mods are loaded |
 
 ## Context Strategy
 

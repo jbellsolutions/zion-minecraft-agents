@@ -283,6 +283,159 @@
     font-size: 7px;
     margin-top: 16px;
   }
+
+  /* Tab navigation */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    justify-content: center;
+  }
+
+  .tab-btn {
+    background: #0d2b0d;
+    border: 3px solid #224422;
+    color: #336633;
+    font-family: inherit;
+    font-size: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.15s;
+  }
+
+  .tab-btn.active {
+    background: #1e3a1e;
+    border-color: #55ff55;
+    color: #55ff55;
+    box-shadow: 0 0 10px #00ff0033;
+  }
+
+  .tab-btn:hover:not(.active) {
+    border-color: #339933;
+    color: #55cc55;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Mod Library */
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .mod-card {
+    background: linear-gradient(135deg, #1e3a1e, #0d2b0d);
+    border: 3px solid #224422;
+    border-radius: 6px;
+    padding: 14px;
+    text-align: left;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .mod-card:hover {
+    border-color: #55ff55;
+    transform: scale(1.02);
+    box-shadow: 0 0 12px #00ff0033;
+  }
+
+  .mod-card-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    image-rendering: pixelated;
+    border: 2px solid #224422;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .mod-card-icon-placeholder {
+    width: 48px;
+    height: 48px;
+    background: #0a1a0a;
+    border: 2px solid #224422;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .mod-name {
+    color: #55ff55;
+    font-size: 9px;
+    margin-bottom: 4px;
+    text-shadow: 1px 1px 0 #003300;
+  }
+
+  .mod-desc {
+    color: #aaffaa;
+    font-size: 7px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .mod-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 7px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+
+  .badge-type {
+    background: #1a2d00;
+    border: 1px solid #55aa00;
+    color: #aaff55;
+  }
+
+  .badge-active {
+    background: #001a00;
+    border: 1px solid #00aa00;
+    color: #55ff55;
+  }
+
+  .badge-date {
+    background: #1a1a00;
+    border: 1px solid #aaaa00;
+    color: #ffff88;
+  }
+
+  .library-empty {
+    text-align: center;
+    color: #224422;
+    font-size: 9px;
+    padding: 40px 20px;
+    line-height: 2;
+  }
+
+  .library-refresh {
+    background: #0d1a0d;
+    border: 2px solid #224422;
+    color: #336633;
+    font-family: inherit;
+    font-size: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    transition: all 0.15s;
+    float: right;
+  }
+
+  .library-refresh:hover {
+    border-color: #55ff55;
+    color: #55ff55;
+  }
 </style>
 </head>
 <body>
@@ -294,6 +447,12 @@
   <div class="title">ZION'S MOD BUILDER</div>
   <div class="subtitle">✨ Type what you want &amp; press BUILD! ✨</div>
 
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('builder')">⚒️ BUILD</button>
+    <button class="tab-btn" onclick="switchTab('library')">📚 MOD LIBRARY</button>
+  </div>
+
+  <div id="tab-builder" class="tab-panel active">
   <div class="card">
     <div class="quick-label">⚡ QUICK IDEAS — TAP ONE!</div>
     <div class="quick-picks">
@@ -323,6 +482,18 @@
     <div class="status-text" id="statusText">Ready to build something awesome! 🎮</div>
     <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
+
+  </div><!-- end tab-builder -->
+
+  <div id="tab-library" class="tab-panel">
+    <div class="card">
+      <button class="library-refresh" onclick="loadLibrary()">↻ Refresh</button>
+      <div class="quick-label">🗂️ MODS YOU'VE BUILT</div>
+      <div id="libraryGrid" class="library-grid">
+        <div class="library-empty">Loading your mods...</div>
+      </div>
+    </div>
+  </div><!-- end tab-library -->
 
   <div class="footer">Zion's World • Powered by AI Magic ✨</div>
 </div>
@@ -442,6 +613,57 @@ function setStatus(type, label, text) {
 document.getElementById('request').addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.ctrlKey) startBuild();
 });
+
+// Tab switching
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'library') loadLibrary();
+}
+
+// Mod Library
+function loadLibrary() {
+  const grid = document.getElementById('libraryGrid');
+  grid.innerHTML = '<div class="library-empty">Loading...</div>';
+  fetch('/library')
+    .then(r => r.json())
+    .then(data => renderLibrary(data.mods || []))
+    .catch(() => {
+      grid.innerHTML = '<div class="library-empty">Could not load mods.<br>Is the server running?</div>';
+    });
+}
+
+function renderLibrary(mods) {
+  const grid = document.getElementById('libraryGrid');
+  if (!mods.length) {
+    grid.innerHTML = '<div class="library-empty">No mods yet!<br>Build something first. 🎮</div>';
+    return;
+  }
+  grid.innerHTML = mods.map(mod => {
+    const iconHtml = mod.icon
+      ? `<img class="mod-card-icon" src="${mod.icon}" alt="${mod.name}">`
+      : `<div class="mod-card-icon-placeholder">${typeEmoji(mod.type)}</div>`;
+    const date = mod.built ? mod.built.split('T')[0] : '';
+    return `
+      <div class="mod-card">
+        ${iconHtml}
+        <div class="mod-name">${mod.name}</div>
+        <div class="mod-desc">${mod.description || ''}</div>
+        <div class="mod-badges">
+          ${mod.type ? `<span class="badge badge-type">${mod.type}</span>` : ''}
+          ${date ? `<span class="badge badge-date">${date}</span>` : ''}
+          ${mod.status === 'active' ? '<span class="badge badge-active">✓ active</span>' : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function typeEmoji(type) {
+  const map = { mob: '👾', item: '⚔️', block: '🟫', boss: '💀', biome: '🌲', weapon: '⚔️', armor: '🛡️' };
+  return map[(type || '').toLowerCase()] || '📦';
+}
 </script>
 </body>
 </html>

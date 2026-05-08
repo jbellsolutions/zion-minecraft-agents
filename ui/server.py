@@ -59,6 +59,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(UI_DIR), **kwargs)
 
+    def do_GET(self):
+        if self.path == "/status":
+            self._json(200, last_output)
+        elif self.path == "/library":
+            library_path = PROJECT_DIR / "mods" / "library.json"
+            try:
+                with open(library_path) as f:
+                    data = json.load(f)
+                self._json(200, data)
+            except FileNotFoundError:
+                self._json(200, {"mods": []})
+            except Exception as e:
+                self._json(500, {"error": str(e)})
+        else:
+            super().do_GET()
+
     def do_POST(self):
         if self.path == "/build":
             length = int(self.headers.get("Content-Length", 0))
@@ -77,9 +93,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             thread = threading.Thread(target=run_claude, args=(request_text,), daemon=True)
             thread.start()
             self._json(200, {"status": "started"})
-
-        elif self.path == "/status":
-            self._json(200, last_output)
 
         else:
             self._json(404, {"error": "Not found"})
