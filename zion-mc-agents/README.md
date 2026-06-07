@@ -24,6 +24,13 @@ Make a fire dragon that spawns in the Nether and drops lava crystals when killed
 
 The orchestrator agent will handle everything from there.
 
+Hermes usually picks the coolest safe interpretation and runs. It asks one short question only when
+the build is blocked by safety, destructive world changes, incompatible choices, or an unknown target
+mod.
+
+Before deploy, Hermes validates Forge assets with `tools/forge_asset_guard.py` and generated data
+packs with `tools/hermes_datapack_guard.py`.
+
 ---
 
 ## Setup Checklist

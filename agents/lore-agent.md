@@ -34,6 +34,8 @@ You create story, quests, NPC dialogue, and written books for Zion's Minecraft w
 
 ## Output
 - Write story content as datapack advancement JSONs in `build/lore_datapack/`
+- Include `pack.mcmeta` with `pack_format: 61` for Minecraft 1.21.4
+- Run `python3 tools/hermes_datapack_guard.py --project build/lore_datapack --fix`
 - Write any `/give` commands for books to `build/lore_commands.txt`
 - Pass paths to deploy-agent
 

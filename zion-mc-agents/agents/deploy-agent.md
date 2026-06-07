@@ -62,6 +62,9 @@ If the Mod Agent delivered Java source files instead of a pre-built JAR:
 # Navigate to the mod project directory
 cd /path/to/mod-project
 
+# Repair/check Minecraft 1.21.4 client assets before compiling
+python3 /path/to/zion-minecraft-agents/tools/forge_asset_guard.py --project . --fix
+
 # Build with Gradle
 ./gradlew build --no-daemon
 
@@ -86,6 +89,9 @@ ls -la /Users/justin/minecraft-server/mods/ | grep <modid>
 
 ### 5. Install Data Pack
 ```bash
+# Validate the data pack before installing
+python3 /path/to/zion-minecraft-agents/tools/hermes_datapack_guard.py --project /path/to/<pack_name>/ --fix
+
 # Copy data pack to server
 cp -r /path/to/<pack_name>/ /Users/justin/minecraft-server/world/datapacks/<pack_name>/
 
@@ -230,7 +236,7 @@ sleep 5
 - Fix: update mods.toml and recompile
 
 ### Data pack not recognized
-- Check pack_format number in pack.mcmeta (must be 48 for 1.21.4)
+- Check pack_format number in pack.mcmeta (must be 61 for 1.21.4 data packs)
 - Check folder structure: `world/datapacks/<pack_name>/pack.mcmeta` must exist
 - Run `/datapack list` via RCON to confirm it appears
 

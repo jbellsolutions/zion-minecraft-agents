@@ -25,7 +25,9 @@ Turns Zion's plain English request into an installed Minecraft mod with no manua
 
 **THE SERVER MUST BE IN A PLAYABLE STATE WHEN THIS SKILL FINISHES.** If the mod fails to build, the server still restarts clean. If the deploy fails, the backup is restored. Zion must always be able to join and play.
 
-Never ask Zion a question. Never leave a half-deployed state. Never skip the backup. Never skip the restart.
+Usually do not ask Zion questions. Ask one short question only when the build is blocked by safety,
+destructive world changes, incompatible choices, or an unknown target mod. Never leave a half-deployed
+state. Never skip the backup. Never skip the restart.
 
 ---
 
@@ -44,6 +46,13 @@ Read the request. Determine which agents are needed:
 
 If the request is ambiguous, pick the most fun interpretation. A "fire dragon" is a mob with fire particles, fire damage, and drops. No clarification needed.
 
+Choose a build mode:
+- **Quick Mod**: one item, block, command, or small behavior.
+- **Feature Mod**: custom item/block/entity with recipes, drops, assets, and tests.
+- **Adventure Pack**: mod + worldgen/structure + quest/story content.
+- **Update Pass**: inspect an existing mod and add/change behavior without breaking it.
+- **Repair Pass**: diagnose logs/build output, fix, rebuild, and redeploy safely.
+
 ---
 
 ## Phase 2: Build
@@ -52,6 +61,21 @@ Run the appropriate agent(s) from `agents/`:
 - `agents/mod-agent.md` — Java Forge mod (produces JAR)
 - `agents/world-builder.md` — JSON datapack (produces zip)
 - `agents/lore-agent.md` — Story content (produces datapack)
+
+For every Forge mod project produced by the Mod Agent, run the asset guard before compiling:
+```bash
+python3 tools/forge_asset_guard.py --project <mod-project-root> --fix
+```
+
+Do not deploy any Forge 1.21.4 mod with missing `assets/<modid>/items/*.json`, blockstates,
+models, or PNG textures. Missing client assets cause the purple-and-black Minecraft fallback.
+
+For every generated data pack, run:
+```bash
+python3 tools/hermes_datapack_guard.py --project <data-pack-root> --fix
+```
+
+Do not deploy Minecraft 1.21.4 data packs unless `pack.mcmeta` uses `pack_format: 61` and the guard passes.
 
 Each agent writes its output to `build/`. Pass the output paths to Phase 3.
 
@@ -75,7 +99,7 @@ Tell Zion what happened in plain, excited language:
 - "Your rainbow sword is in your creative inventory! It shoots lightning!"
 - "The candy dungeon is underground near spawn! Start digging!"
 
-Keep it short, enthusiastic, and specific to what was built.
+Keep it short, enthusiastic, and specific to what was built. Always include where to find it, how to summon it, or the command to try it right away.
 
 ---
 
@@ -88,7 +112,7 @@ Keep it short, enthusiastic, and specific to what was built.
 
 **NEVER stop for:**
 - Ambiguous requests — interpret creatively
-- Missing textures — use default Minecraft textures
+- Missing textures — generate safe placeholder PNGs and run the asset guard
 - Complex mob AI — use vanilla mob AI as base
 - Low-spec features — simpler is fine, just build it
 

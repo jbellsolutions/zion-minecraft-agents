@@ -129,7 +129,7 @@ Now you can send your child's mod requests from your phone and get back a "done!
 
 | Agent | What It Does |
 |-------|-------------|
-| **Orchestrator** | Routes your child's requests — never asks questions, just picks the coolest version and builds it |
+| **Orchestrator** | Routes your child's requests — usually picks the coolest version and builds it, asks only when truly needed |
 | **Mod Agent** | Writes Java Forge 1.21.4 mods (mobs, items, blocks, weapons, bosses) — full source, compiles first try |
 | **World Builder** | Generates biomes, structures, dungeons, terrain |
 | **Lore Agent** | Creates quests, NPC dialogue, data packs, books |
@@ -140,7 +140,7 @@ All agents run with Zion's rules:
 - Never leave the server broken
 - Always backup before installing
 - Keep everything kid-friendly
-- Never ask a question — just build the coolest version
+- Ask one short question only when blocked by safety, destructive changes, incompatible choices, or an unknown target mod
 
 ---
 
@@ -206,6 +206,23 @@ Before running setup.sh, make sure you have:
 
 For icon generation (optional):
 - `OPENAI_API_KEY` in your environment (for DALL-E pixel art icons)
+
+---
+
+## Reliability Guards
+
+Hermes runs local guard scripts before deploy:
+
+- `tools/forge_asset_guard.py` checks Forge 1.21.4 item/block assets and prevents purple-and-black missing textures.
+- `tools/hermes_datapack_guard.py` checks Minecraft 1.21.4 data packs, including `pack_format: 61`, JSON validity, namespaces, and function syntax.
+
+## Hermes Skill Pack
+
+Feed these skills to Hermes when building Zion's mods:
+
+- `skills/hermes-minecraft-superbuilder/SKILL.md` — end-to-end build/update/repair workflow for cool, complex playable Minecraft requests.
+- `skills/forge-1214-assets/SKILL.md` — Forge 1.21.4 asset contract that prevents missing textures.
+- `skills/zion/SKILL.md` — the full Zion pipeline: route, build, validate, deploy, and report how to play.
 
 ---
 

@@ -44,6 +44,37 @@ pass your output to the Deploy Agent.
 - Event handlers (on kill, on respawn, on interact)
 - Commands (simple /command shortcuts for Zion)
 
+## Feature Playbook
+
+Every feature should include a way to obtain it, a way to test it, and visible feedback when it works.
+
+### Bosses
+- Spawn path: spawn egg, command, structure spawn, or biome spawn rule.
+- Behavior: clear attack loop, fair damage, optional second phase below 50% health.
+- Reward: loot table, advancement, XP, and one memorable drop.
+- Safety: do not grief large areas unless explicitly requested.
+
+### Pets / Companions
+- Tame path: favorite food or crafted charm.
+- Behavior: follow owner, protect owner, avoid attacking owner/allies, teleport when too far away.
+- Feedback: hearts on tame, sound/particle when helping, clear name/description.
+
+### Power Items
+- Trigger: right-click, hit entity, break block, or tick while worn/held.
+- Balance: cooldown, durability cost, fuel item, or capped effect range.
+- Feedback: particles, sound, actionbar text, and creative-tab access.
+
+### Leveling / Progression
+- Store progression safely on the item/entity/player when feasible.
+- Cap levels to prevent runaway power.
+- Show progress through item name/lore, advancement, title, or actionbar.
+
+### Update Existing Mod
+- Inspect existing source and registry IDs first.
+- Preserve mod ID and registry names unless the requested change requires new IDs.
+- Add the smallest complete behavior change, then re-run assets/build checks.
+- Never remove an existing feature unless the request explicitly says to remove it.
+
 ## Code Standards
 
 ### Package Structure
@@ -153,14 +184,104 @@ license="MIT"
 ```json
 {
   "pack": {
-    "pack_format": 34,
+    "pack_format": 46,
     "description": "<Mod display name>"
   }
 }
 ```
 
+### Client Asset Contract (required for every item/block)
+Minecraft renders purple-and-black missing textures when a registry entry has no matching client
+asset files. For Minecraft 1.21.4, old `models/item/*.json` files are not enough: every item and
+every block item also needs a top-level item definition in `assets/<modid>/items/`.
+
+For each standalone item registered as `"lava_crystal"`, create:
+```
+src/main/resources/assets/<modid>/items/lava_crystal.json
+src/main/resources/assets/<modid>/models/item/lava_crystal.json
+src/main/resources/assets/<modid>/textures/item/lava_crystal.png
+```
+
+Use this 1.21.4 item definition:
+```json
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "<modid>:item/lava_crystal"
+  }
+}
+```
+
+Use this generated item model:
+```json
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "<modid>:item/lava_crystal"
+  }
+}
+```
+
+For each full cube block registered as `"crystal_block"`, create:
+```
+src/main/resources/assets/<modid>/blockstates/crystal_block.json
+src/main/resources/assets/<modid>/models/block/crystal_block.json
+src/main/resources/assets/<modid>/models/item/crystal_block.json
+src/main/resources/assets/<modid>/items/crystal_block.json
+src/main/resources/assets/<modid>/textures/block/crystal_block.png
+```
+
+Use this blockstate:
+```json
+{
+  "variants": {
+    "": {
+      "model": "<modid>:block/crystal_block"
+    }
+  }
+}
+```
+
+Use this block model:
+```json
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "<modid>:block/crystal_block"
+  }
+}
+```
+
+Use this 1.21.4 block item definition:
+```json
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "<modid>:block/crystal_block"
+  }
+}
+```
+
+Textures must be real PNG files, square, and power-of-two sized. A simple 16x16 generated texture
+is better than no texture. Never leave a registered item or block without matching assets.
+
+## Playability Gate
+
+Before handing off to Deploy Agent, make sure the mod includes at least one of:
+- a recipe
+- a creative mode tab entry
+- a spawn egg
+- a command
+- a quest/worldgen path that references the item/entity/block
+
+Also provide one immediate test instruction such as `/summon <modid>:<entity>`, where to find the
+item in Creative, or what recipe to craft.
+
 ## Build Commands
 ```bash
+# From the repo root, before building, create/check required client assets:
+python3 tools/forge_asset_guard.py --project <mod-project-root> --fix
+
 # From the mod project root (copy of forge-mod-template)
 ./gradlew build
 
@@ -171,9 +292,10 @@ build/libs/<modid>-1.0.0.jar
 ## Output Format
 When you finish writing a mod, output:
 1. A list of all .java files created with their full content
-2. All resource files (mods.toml, pack.mcmeta, loot tables, recipes)
+2. All resource files, including client assets (items, models, blockstates, textures, lang)
 3. The expected output JAR name
-4. Any special setup notes for the Deploy Agent
+4. Confirmation that `tools/forge_asset_guard.py --fix` passed
+5. Any special setup notes for the Deploy Agent
 
 ## Error Handling
 - If a class or API doesn't exist in Forge 54.x, find the correct equivalent

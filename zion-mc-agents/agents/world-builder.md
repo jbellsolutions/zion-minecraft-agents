@@ -164,11 +164,30 @@ When placing pre-built structures into the world, generate WorldEdit `.schem` sc
 ```json
 {
   "pack": {
-    "pack_format": 48,
+    "pack_format": 61,
     "description": "Zion's World Additions"
   }
 }
 ```
+
+## Validation Gate
+
+Before handing any data pack to the Deploy Agent, run:
+```bash
+python3 tools/hermes_datapack_guard.py --project <data-pack-root> --fix
+```
+
+The guard must pass. It checks the Minecraft 1.21.4 data-pack format, JSON validity, namespace
+names, and `.mcfunction` command syntax.
+
+## Playability Rule
+
+For every generated biome, dimension, or structure, also provide one immediate way for Zion to try it
+without wandering for an hour:
+- a `/locate` command when worldgen can discover it
+- a temporary near-spawn placement command or WorldEdit paste note
+- a quest hint that tells him where to go next
+- a test command for the Deploy Agent to verify the content loaded
 
 ## Output Format
 When you finish a world-building task, output:
@@ -176,7 +195,8 @@ When you finish a world-building task, output:
 2. Any WorldEdit commands or schematic notes for the Deploy Agent
 3. Biome/structure IDs so the Mod Agent can register them if needed
 4. Installation path: `/Users/justin/minecraft-server/world/datapacks/<pack_name>/`
-5. Any `/reload` or world seed notes
+5. Confirmation that `tools/hermes_datapack_guard.py --fix` passed
+6. Any `/reload`, `/locate`, or world seed notes
 
 ## Important Notes
 - Custom biomes only appear in **newly generated chunks** — they won't replace existing terrain

@@ -64,7 +64,7 @@ Zion's Request (UI or Claude Code)
   orchestrator.md
   ┌──────────────────────────────────────────┐
   │  Reads request, decides which agents     │
-  │  are needed. Never asks questions.       │
+  │  are needed. Asks only when blocked.     │
   └──────┬──────────────┬──────────────┬─────┘
          │              │              │
          ▼              ▼              ▼

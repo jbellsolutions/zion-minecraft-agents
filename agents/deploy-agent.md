@@ -28,11 +28,14 @@ ls -1dt /Users/justin/minecraft-server/backups/mods_* 2>/dev/null | tail -n +6 |
 
 ### Step 2: Install JAR (if mod-agent produced one)
 ```bash
+# If source is available, validate assets before copying the JAR
+python3 tools/forge_asset_guard.py --project <mod-project-root> --fix
 cp build/build/libs/zionmod-1.0.jar /Users/justin/minecraft-server/mods/
 ```
 
 ### Step 3: Install Datapack (if world-builder or lore-agent produced one)
 ```bash
+python3 tools/hermes_datapack_guard.py --project build/datapack --fix
 cp build/zion_world.zip /Users/justin/minecraft-server/world/datapacks/
 # OR for a folder:
 cp -r build/datapack/ /Users/justin/minecraft-server/world/datapacks/zion_world/

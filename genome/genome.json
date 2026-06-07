@@ -64,7 +64,7 @@
       "id": "skill-zion",
       "name": "zion",
       "description": "Minecraft mod builder for a 5-year-old. Routes plain-English requests through orchestrator → mod/world/lore agents → deploy agent.",
-      "iron_law": "Server must be in playable state when skill completes. Never ask the user a question.",
+      "iron_law": "Server must be in playable state when skill completes. Usually proceed without blocking; ask one short question only when safety, destructive changes, incompatible choices, or unknown targets require it.",
       "contributed_by": "zion-minecraft-agents",
       "contributed_at": "2026-03-29T03:30:00Z"
     }

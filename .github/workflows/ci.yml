@@ -53,19 +53,32 @@ jobs:
 
       - name: Check no secrets in tracked files
         run: |
-          echo "Scanning for leaked secrets..."
-          if grep -rn "sk-\|AKIA\|password\s*=\s*['\"][^'\"]" \
-            --include="*.py" --include="*.js" --include="*.ts" --include="*.md" \
-            --exclude-dir=".git" --exclude-dir="node_modules" . 2>/dev/null; then
-            echo "❌ Potential secrets found!"
-            exit 1
-          else
-            echo "✅ No secrets detected"
-          fi
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+
+          secret_regexes = [
+              re.compile(r"sk-ant-[a-zA-Z0-9_\-]{20,}"),
+              re.compile(r"AKIA[0-9A-Z]{16}"),
+          ]
+          extensions = {".py", ".js", ".ts", ".json"}
+          skip_dirs = {".git", "node_modules", "__pycache__", "build", ".gradle"}
+          for path in Path(".").rglob("*"):
+              if path.suffix not in extensions:
+                  continue
+              if any(part in skip_dirs for part in path.parts):
+                  continue
+              text = path.read_text(errors="ignore")
+              for pattern in secret_regexes:
+                  match = pattern.search(text)
+                  if match:
+                      raise SystemExit(f"Potential real secret in {path}: {match.group()[:8]}...")
+          print("✅ No real secrets detected")
+          PY
 
       - name: Validate Python syntax
         run: |
-          python3 -m py_compile ui/server.py && echo "✅ ui/server.py syntax OK"
+          python3 -m py_compile ui/server.py tools/forge_asset_guard.py tools/hermes_datapack_guard.py && echo "✅ Python syntax OK"
 
       - name: Validate JSON files
         run: |

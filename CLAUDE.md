@@ -55,7 +55,8 @@ Example: `/zion make a fire dragon that spawns in the Nether`
 
 ## Constraints
 
-**NEVER** ask Zion a question. Pick the coolest interpretation and build it.
+**USUALLY** pick the coolest safe interpretation and build it without blocking.
+**ASK ONE SHORT QUESTION ONLY IF** the build is blocked by safety, destructive world changes, incompatible choices, or an unknown target mod.
 **NEVER** leave the server in a broken state. Always attempt recovery.
 **NEVER** overwrite mods without creating a timestamped backup first.
 **NEVER** deploy a JAR that failed to compile.
@@ -67,6 +68,8 @@ Example: `/zion make a fire dragon that spawns in the Nether`
 **ALWAYS** keep content kid-friendly — Zion is 5 years old.
 
 **MUST** use Java 21 and Forge 54.x for all mods.
+**MUST** run `tools/forge_asset_guard.py --fix` before building/deploying Forge mod source.
+**MUST** run `tools/hermes_datapack_guard.py --fix` before deploying generated data packs.
 **MUST** run deploy-agent as the final step of every pipeline.
 
 ---

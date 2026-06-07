@@ -8,7 +8,7 @@ Multi-agent system for Zion's Minecraft mod builder. Each agent has a single job
 User Request
      │
      ▼
-orchestrator          ← routes request, never asks questions
+orchestrator          ← routes request, asks only when truly needed
      │
      ├──► mod-agent        ← Java mods (mobs, items, blocks, armor, tools)
      ├──► world-builder    ← JSON datapacks (biomes, structures, loot tables)
@@ -22,7 +22,7 @@ deploy-agent          ← installs files, restarts server
 
 | Agent | File | Responsibility |
 |-------|------|----------------|
-| Orchestrator | `agents/orchestrator.md` | Routes requests, never asks questions |
+| Orchestrator | `agents/orchestrator.md` | Routes requests, asks only when truly needed |
 | Mod Builder | `agents/mod-agent.md` | Java Forge 1.21.4 mods |
 | World Builder | `agents/world-builder.md` | JSON datapacks |
 | Lore Writer | `agents/lore-agent.md` | Story, quests, books |
@@ -48,8 +48,11 @@ Available commands once installed:
 
 ## Rules
 
-1. Orchestrator NEVER asks clarifying questions — makes a creative decision and runs
+1. Orchestrator usually makes a creative decision and runs; it asks one short question only when the build is genuinely blocked, unsafe, or depends on a high-impact choice
 2. Deploy agent ALWAYS backs up before changing anything
 3. Deploy agent ALWAYS restarts the server after installing
 4. If deployment fails, restore the backup and restart the server
 5. Keep everything kid-friendly — Zion is 5 years old
+6. Forge mods MUST pass `tools/forge_asset_guard.py --fix` before build/deploy
+7. Data packs MUST pass `tools/hermes_datapack_guard.py --fix` before deploy
+8. Every completed build MUST tell Zion where to find it or how to try it immediately

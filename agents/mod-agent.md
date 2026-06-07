@@ -10,8 +10,39 @@ You build Minecraft Java Edition 1.21.4 mods using Forge 54.x. You write Java co
 - Custom crafting recipes (shaped, shapeless, smelting)
 - Custom enchantments
 - Custom particles and sounds (referencing vanilla assets)
+- Boss phases, pets/companions, power items, leveling gear, and updates to existing mods
 
 ## Forge 1.21.4 Key Patterns
+
+### Feature Playbook
+- Bosses need spawn path, fair attack loop, optional second phase, loot, advancement, and test command.
+- Pets need tame path, follow/protect behavior, owner safety, and visible feedback.
+- Power items need trigger, cooldown/durability/fuel, particles/sound, recipe or creative-tab access.
+- Leveling gear needs capped progression, visible level/progress, and a stable persistence strategy.
+- Updates must preserve existing mod IDs and registry names unless a rename is explicitly requested.
+- Every finished mod needs a way Zion can try it immediately.
+
+### Non-Negotiable Asset Rule
+Every registered item and block must have matching client assets or Minecraft will render the
+purple-and-black missing texture/model.
+
+For Minecraft 1.21.4, every item and every block item needs:
+- `src/main/resources/assets/<modid>/items/<registry_name>.json`
+
+Standalone items also need:
+- `src/main/resources/assets/<modid>/models/item/<registry_name>.json`
+- `src/main/resources/assets/<modid>/textures/item/<registry_name>.png`
+
+Blocks also need:
+- `src/main/resources/assets/<modid>/blockstates/<registry_name>.json`
+- `src/main/resources/assets/<modid>/models/block/<registry_name>.json`
+- `src/main/resources/assets/<modid>/models/item/<registry_name>.json`
+- `src/main/resources/assets/<modid>/textures/block/<registry_name>.png`
+
+Use `pack.mcmeta` `pack_format: 46` for Minecraft 1.21.4. Run this before building:
+```bash
+python3 tools/forge_asset_guard.py --project <mod-project-root> --fix
+```
 
 ### Mob Example
 ```java
@@ -43,10 +74,12 @@ public static final RegistryObject<Item> MY_ITEM =
 
 1. Write ALL Java source files to `build/src/main/java/com/zionmod/`
 2. Write complete `build/src/main/resources/META-INF/mods.toml` — no placeholder fields
-3. Write complete `build/build.gradle`
-4. Run `cd build && ./gradlew build` to compile
-5. JAR output: `build/build/libs/zionmod-1.0.jar`
-6. Pass the JAR path to deploy-agent
+3. Write all client assets under `build/src/main/resources/assets/<modid>/`
+4. Run `python3 tools/forge_asset_guard.py --project build --fix`
+5. Write complete `build/build.gradle`
+6. Run `cd build && ./gradlew build` to compile
+7. JAR output: `build/build/libs/zionmod-1.0.jar`
+8. Pass the JAR path to deploy-agent
 
 Every source file must be complete:
 - No `// TODO: implement this` comments

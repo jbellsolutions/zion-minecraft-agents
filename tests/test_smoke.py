@@ -7,6 +7,8 @@ import json
 import os
 import sys
 import importlib.util
+import subprocess
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
@@ -88,6 +90,52 @@ def test_skill_md_exists():
     content = skill_path.read_text()
     assert "Iron Law" in content, "SKILL.md missing Iron Law section"
     assert "## Phase" in content, "SKILL.md missing Phase sections"
+
+
+def test_hermes_skills_exist():
+    """Hermes support skills must exist with their core guardrails."""
+    skills = {
+        "forge-1214-assets": "assets/<modid>/items",
+        "hermes-minecraft-superbuilder": "Question policy",
+    }
+    for skill_name, expected in skills.items():
+        skill_path = ROOT / "skills" / skill_name / "SKILL.md"
+        assert skill_path.exists(), f"skills/{skill_name}/SKILL.md missing"
+        assert expected in skill_path.read_text(), f"skills/{skill_name}/SKILL.md missing {expected}"
+
+
+def test_forge_template_assets_complete():
+    """Forge template must include all 1.21.4 item/block client assets."""
+    script = ROOT / "tools" / "forge_asset_guard.py"
+    template = ROOT / "zion-mc-agents" / "templates" / "forge-mod-template"
+    result = subprocess.run(
+        [sys.executable, str(script), "--project", str(template)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_datapack_guard_accepts_1214_pack():
+    """Data pack guard must accept a valid Minecraft 1.21.4 pack."""
+    script = ROOT / "tools" / "hermes_datapack_guard.py"
+    with tempfile.TemporaryDirectory() as tmp:
+        pack = Path(tmp)
+        (pack / "pack.mcmeta").write_text(
+            json.dumps({"pack": {"pack_format": 61, "description": "test pack"}}),
+            encoding="utf-8",
+        )
+        namespace = pack / "data" / "zionmc" / "functions"
+        namespace.mkdir(parents=True)
+        (namespace / "load.mcfunction").write_text("say Hermes data pack loaded\n", encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, str(script), "--project", str(pack)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+        )
+    assert result.returncode == 0, result.stdout + result.stderr
 
 
 def test_no_secrets_in_tracked_files():

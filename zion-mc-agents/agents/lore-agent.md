@@ -45,6 +45,25 @@ Since vanilla Minecraft lacks an NPC dialogue system without mods:
 - Smelting, blasting, smoking, campfire recipes
 - Smithing table recipes (for armor upgrades)
 
+## Data Pack Rules
+
+Every lore/quest data pack must include:
+```json
+{
+  "pack": {
+    "pack_format": 61,
+    "description": "Zion quest content"
+  }
+}
+```
+
+Before handing the pack to the Deploy Agent, run:
+```bash
+python3 tools/hermes_datapack_guard.py --project <data-pack-root> --fix
+```
+
+The guard must pass. Do not use leading `/` characters inside `.mcfunction` files.
+
 ## Advancement JSON (Quest) Template
 
 ### File: `data/zionmc/advancements/<quest_name>/<stage>.json`
@@ -186,6 +205,7 @@ give @p minecraft:written_book{
 3. **Reward variety** — mix XP, items, lore books, and fun effects
 4. **Replayability** — quests can chain into larger story arcs
 5. **Age-appropriate** — exciting but not gory; heroic themes
+6. **Immediate feedback** — every stage should show a title/actionbar, play a sound, grant a visible reward, or unlock a clear next clue
 
 ## Dialogue Writing Style
 - NPCs speak in short sentences (Zion is young — keep it readable)
@@ -200,5 +220,6 @@ When you finish a lore/quest task, output:
 3. Any recipe files
 4. Any lore book give-commands
 5. Quest flow diagram (simple text): Root → Stage 1 → Stage 2 → Final Reward
-6. In-game testing instructions (e.g., `/advancement grant @p only zionmc:relic_hunt/root`)
-7. Installation path: `/Users/justin/minecraft-server/world/datapacks/<pack_name>/`
+6. Confirmation that `tools/hermes_datapack_guard.py --fix` passed
+7. In-game testing instructions (e.g., `/advancement grant @p only zionmc:relic_hunt/root`)
+8. Installation path: `/Users/justin/minecraft-server/world/datapacks/<pack_name>/`

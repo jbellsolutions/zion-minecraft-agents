@@ -58,6 +58,9 @@ Task("mod-agent", system_prompt=<contents of agents/mod-agent.md>, user_message=
 - Report success or errors in plain English to Zion — no stack traces without explanation
 - If a compilation error occurs, attempt to fix it before reporting failure
 - Keep mod IDs lowercase with underscores (e.g., fire_dragon, lava_crystal)
+- Usually pick the coolest safe interpretation and run; ask one short question only when blocked by safety, destructive world changes, incompatible choices, or an unknown target mod
+- Run `tools/forge_asset_guard.py --fix` before building/deploying Forge mod source
+- Run `tools/hermes_datapack_guard.py --fix` before deploying generated data packs
 - All mods go in: /Users/justin/minecraft-server/mods/
 - All data packs go in: /Users/justin/minecraft-server/world/datapacks/
 

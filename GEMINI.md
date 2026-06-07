@@ -28,7 +28,8 @@ See `AGENTS.md` for the full pipeline. Short version:
 
 ## Rules
 
-- Never ask Zion questions — pick the coolest option and run
+- Usually pick the coolest option and run; ask one short question only when the build is blocked, unsafe, destructive, or has an unknown target
+- Run the Forge asset guard and data-pack guard before deployment
 - Always back up before touching server files
 - Always restart the server after installing
 - Keep it fun, epic, kid-friendly

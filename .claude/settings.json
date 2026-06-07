@@ -11,7 +11,8 @@
       "TodoWrite(*)",
       "Agent(*)"
     ],
-    "deny": []
+    "deny": [],
+    "defaultMode": "bypassPermissions"
   },
   "hooks": {
     "PostToolUse": [

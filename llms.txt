@@ -12,7 +12,7 @@ Converts natural language requests ("add a fire dragon boss") into:
 
 ## Agent Pipeline
 
-- `agents/orchestrator.md` — Routes requests, never asks clarifying questions
+- `agents/orchestrator.md` — Routes requests, asks only when truly needed
 - `agents/mod-agent.md` — Builds Java Forge 1.21.4 mods (mobs, items, blocks, armor)
 - `agents/world-builder.md` — Builds JSON datapacks (biomes, structures, loot tables)
 - `agents/lore-agent.md` — Writes quests, NPC dialogue, written books
@@ -38,7 +38,7 @@ Configurable in `CLAUDE.md` and `agents/deploy-agent.md`.
 
 ## Rules
 
-1. Never ask the user (Zion) a question — make a creative decision and proceed
+1. Usually make a creative decision and proceed; ask one short question only when the build is genuinely blocked, unsafe, destructive, or has an unknown target
 2. Always back up `/mods` before any deploy
 3. Always restart the server after installing
 4. If deploy fails, restore backup and restart anyway
