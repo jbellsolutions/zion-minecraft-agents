@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jbellsolutions/zion-minecraft-agents/schemas/creation-v1.schema.json",
+  "title": "Zion creation manifest version 1",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{0,63}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "const": {
+        "minecraft": "1.21.4",
+        "loader": "forge",
+        "forge": "54.1.0",
+        "java": 21
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "kind": {
+            "enum": [
+              "item",
+              "block",
+              "entity",
+              "room",
+              "structure"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "registry_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requires_geometry": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "description"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "item",
+                    "block",
+                    "entity"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "registry_id"
+              ]
+            }
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "kind": {
+            "enum": [
+              "inventory_icon",
+              "model",
+              "texture",
+              "thumbnail",
+              "item_definition",
+              "blockstate"
+            ]
+          },
+          "capability_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "kind"
+        ]
+      },
+      "minItems": 1,
+      "description": "Except thumbnails, paths must contain assets/<namespace>/... and match exact resource bytes inside a declared JAR."
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "literal": {
+            "type": "string",
+            "pattern": "^/zion [a-z0-9_ <>:.-]+$"
+          },
+          "capability_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,63}$"
+          },
+          "action": {
+            "enum": [
+              "give",
+              "spawn",
+              "place",
+              "find",
+              "help"
+            ]
+          }
+        },
+        "required": [
+          "literal",
+          "capability_id",
+          "action"
+        ]
+      },
+      "minItems": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "kind": {
+            "enum": [
+              "jar",
+              "datapack"
+            ]
+          }
+        },
+        "required": [
+          "path",
+          "sha256",
+          "kind"
+        ]
+      },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "check": {
+            "enum": [
+              "compile",
+              "server_start",
+              "client_render",
+              "client_join",
+              "gameplay",
+              "restart",
+              "artifact_parity"
+            ]
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "pending"
+            ]
+          },
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "check",
+          "status"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "passed"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "path",
+                "sha256",
+                "artifact_sha256"
+              ]
+            }
+          }
+        ]
+      },
+      "description": "Unique per (check, artifact_sha256). Each artifact needs every runtime gate before verified success. Receipt files must be nonempty and match their hash."
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "name",
+    "request",
+    "target",
+    "capabilities",
+    "assets",
+    "commands",
+    "artifacts",
+    "evidence"
+  ],
+  "description": "All paths are relative to this manifest. Passed evidence requires path, sha256 and artifact_sha256. Runtime validator additionally verifies archives, paths, hashes, PNG pixels, capability command and inventory coverage. Block icons may use shaped model plus item_definition. Missing runtime evidence means awaiting_verification, never deployed."
+}

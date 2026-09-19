@@ -23,3 +23,13 @@ Thumbs.db
 .idea/
 .vscode/settings.json
 *.iml
+
+# Private runtime state and credentials
+.env
+.env.*
+!.env.example
+.zion/
+*.private.json
+release-private/
+__pycache__/
+*.pyc

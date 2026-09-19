@@ -1,0 +1,37 @@
+{
+  "check": "client_render",
+  "status": "passed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "observations": [
+    "Inspected actual framebuffer screenshots after joining the isolated server.",
+    "Rainbow motorcycle custom geometry and Yoda head/ears/robe/hands visible.",
+    "Sword and motorcycle inventory icons recognizable; furniture inventory/world geometry rendered.",
+    "Held shiny sword and player riding visible; no missing textures in showcase content."
+  ],
+  "proof_files": [
+    {
+      "path": "proof/client/client-proof.json",
+      "sha256": "ed50852fc346f93f2f7a33ab4a36de76fd0f061a7cce782a1b49b3941561d070"
+    },
+    {
+      "path": "proof/client/motorcycle-hero.png",
+      "sha256": "8ddc10b5856ed3ece0e3670f282af476126b6a9b3bf13105961a7ddaad6d4496"
+    },
+    {
+      "path": "proof/client/showcase-scene.png",
+      "sha256": "2ee5b03bb32bb865796695c314b82bf8628c00d083f26a382b4b6a02fc82a24e"
+    },
+    {
+      "path": "proof/client/inventory-icons.png",
+      "sha256": "5c794b4caf14f1c4077a7252eb5bc7d17d7f4e86a872a2d1b687f6e13c9c7451"
+    },
+    {
+      "path": "proof/client/held-sword.png",
+      "sha256": "a659f3a3a3ba591572c0eca46d1ed1fb62b95903be04f744b513d8d5d0b15581"
+    },
+    {
+      "path": "proof/client/yoda-passenger.png",
+      "sha256": "f221a77f54c0d1e65ed7b442687f36234de48af18ad601b706f128e28d6a15ed"
+    }
+  ]
+}

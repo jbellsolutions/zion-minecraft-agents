@@ -8,13 +8,15 @@ Older assets/models/item/*.json files alone are not enough.
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
-import struct
 import sys
-import zlib
 from pathlib import Path
+
+try:
+    from .asset_validation import decode_png, validate_png, validate_resource_tree
+except ImportError:
+    from asset_validation import decode_png, validate_png, validate_resource_tree
 
 
 ROOT_PARTS = ("src", "main", "resources")
@@ -56,9 +58,11 @@ def discover_mod_id(project: Path) -> str:
 
     mods_toml = project / "src/main/resources/META-INF/mods.toml"
     if mods_toml.exists():
-        match = re.search(r"modId\s*=\s*\"([a-z0-9_]+)\"", mods_toml.read_text(encoding="utf-8"))
-        if match:
-            return match.group(1)
+        declared = re.findall(r"\[\[mods\]\][\s\S]*?modId\s*=\s*\"([a-z0-9_]+)\"", mods_toml.read_text(encoding="utf-8"))
+        if len(declared) == 1:
+            return declared[0]
+        if len(declared) > 1:
+            raise SystemExit("Multiple mod namespaces: use --mod-id to select the content namespace; no files were changed")
 
     raise SystemExit("Could not determine mod_id from gradle.properties or mods.toml")
 
@@ -98,7 +102,7 @@ def ensure_json(path: Path, data: object, fix: bool, issues: list[str], fixes: l
     if path.exists():
         try:
             json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
+        except (json.JSONDecodeError, OSError, UnicodeError) as exc:
             issues.append(f"{path} is invalid JSON: {exc}")
         return
 
@@ -107,83 +111,21 @@ def ensure_json(path: Path, data: object, fix: bool, issues: list[str], fixes: l
         write_json(path, data, fixes)
 
 
-def png_chunk(kind: bytes, data: bytes) -> bytes:
-    return (
-        struct.pack(">I", len(data))
-        + kind
-        + data
-        + struct.pack(">I", zlib.crc32(kind + data) & 0xFFFFFFFF)
-    )
-
-
-def make_placeholder_png(path: Path, seed: str, kind: str, fixes: list[str]) -> None:
-    digest = hashlib.sha256(seed.encode("utf-8")).digest()
-    if kind == "block":
-        base = (38 + digest[0] % 35, 132 + digest[1] % 45, 112 + digest[2] % 45, 255)
-        accent = (112 + digest[3] % 45, 208 + digest[4] % 35, 166 + digest[5] % 35, 255)
-        edge = (25, 74, 69, 255)
-    else:
-        base = (214 + digest[0] % 35, 156 + digest[1] % 35, 43 + digest[2] % 35, 255)
-        accent = (76 + digest[3] % 35, 151 + digest[4] % 45, 83 + digest[5] % 35, 255)
-        edge = (111, 72, 27, 255)
-
-    size = 16
-    rows: list[bytes] = []
-    for y in range(size):
-        pixels = bytearray()
-        for x in range(size):
-            if x in (0, size - 1) or y in (0, size - 1):
-                rgba = edge
-            elif kind == "block" and (x + y) % 5 == 0:
-                rgba = accent
-            elif kind == "item" and (x - y) in (-1, 0, 1):
-                rgba = accent
-            else:
-                rgba = base
-            pixels.extend(rgba)
-        rows.append(b"\x00" + bytes(pixels))
-
-    raw = b"".join(rows)
-    png = (
-        b"\x89PNG\r\n\x1a\n"
-        + png_chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0))
-        + png_chunk(b"IDAT", zlib.compress(raw, 9))
-        + png_chunk(b"IEND", b"")
-    )
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(png)
-    fixes.append(f"created {path}")
-
-
 def png_dimensions(path: Path) -> tuple[int, int] | None:
     try:
-        with path.open("rb") as png:
-            header = png.read(24)
-    except OSError:
+        image = decode_png(path.read_bytes())
+        return image["width"], image["height"]
+    except (OSError, ValueError):
         return None
-    if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
-        return None
-    return struct.unpack(">II", header[16:24])
-
-
-def is_power_of_two(value: int) -> bool:
-    return value > 0 and (value & (value - 1)) == 0
 
 
 def ensure_texture(path: Path, mod_id: str, name: str, kind: str, fix: bool, issues: list[str], fixes: list[str]) -> None:
+    # Missing art is a build failure. Metadata repair must never silently replace
+    # requested artwork with an opaque colored square.
     if not path.exists():
-        issues.append(f"missing {path}")
-        if fix:
-            make_placeholder_png(path, f"{mod_id}:{kind}:{name}", kind, fixes)
+        issues.append(f"missing artwork {path}; create a recognizable texture before building")
         return
-
-    dims = png_dimensions(path)
-    if dims is None:
-        issues.append(f"{path} is not a readable PNG")
-        return
-    width, height = dims
-    if width != height or not is_power_of_two(width):
-        issues.append(f"{path} must be square and power-of-two sized, got {width}x{height}")
+    issues.extend(validate_png(path, inventory=kind == "item"))
 
 
 def ensure_lang(resources: Path, mod_id: str, blocks: set[str], items: set[str], fix: bool, issues: list[str], fixes: list[str]) -> None:
@@ -197,7 +139,7 @@ def ensure_lang(resources: Path, mod_id: str, blocks: set[str], items: set[str],
             else:
                 issues.append(f"{path} must contain a JSON object")
                 return
-        except json.JSONDecodeError as exc:
+        except (json.JSONDecodeError, OSError, UnicodeError) as exc:
             issues.append(f"{path} is invalid JSON: {exc}")
             return
 
@@ -227,6 +169,7 @@ def ensure_pack_format(project: Path, fix: bool, issues: list[str], fixes: list[
     version = discover_minecraft_version(project)
     expected = PACK_FORMAT_BY_MC.get(version or "")
     if expected is None:
+        issues.append(f"unsupported or missing minecraft_version: {version!r}; expected 1.21.4")
         return
 
     path = project / "src/main/resources/pack.mcmeta"
@@ -238,11 +181,15 @@ def ensure_pack_format(project: Path, fix: bool, issues: list[str], fixes: list[
 
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, OSError, UnicodeError) as exc:
         issues.append(f"{path} is invalid JSON: {exc}")
         return
 
-    current = data.get("pack", {}).get("pack_format") if isinstance(data, dict) else None
+    pack = data.get("pack") if isinstance(data, dict) else None
+    if not isinstance(pack, dict):
+        issues.append(f"{path} pack must be a JSON object")
+        return
+    current = pack.get("pack_format")
     if current != expected:
         issues.append(f"{path} pack_format should be {expected} for Minecraft {version}, got {current}")
         if fix and isinstance(data, dict):
@@ -250,9 +197,11 @@ def ensure_pack_format(project: Path, fix: bool, issues: list[str], fixes: list[
             write_json(path, data, fixes)
 
 
-def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
+def validate(project: Path, fix: bool, mod_id: str | None = None) -> tuple[list[str], list[str]]:
     project = project.resolve()
-    mod_id = discover_mod_id(project)
+    mod_id = mod_id or discover_mod_id(project)
+    if not VALID_ID_RE.fullmatch(mod_id):
+        return ["mod_id must be a lowercase resource namespace"], []
     resources = project / "/".join(ROOT_PARTS)
     assets = resources / "assets" / mod_id
     blocks, items = discover_registries(project)
@@ -294,15 +243,6 @@ def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
             issues,
             fixes,
         )
-        ensure_texture(
-            assets / "textures" / "block" / f"{block}.png",
-            mod_id,
-            block,
-            "block",
-            fix,
-            issues,
-            fixes,
-        )
 
     for item in sorted(items - blocks):
         ensure_json(
@@ -319,20 +259,12 @@ def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
             issues,
             fixes,
         )
-        ensure_texture(
-            assets / "textures" / "item" / f"{item}.png",
-            mod_id,
-            item,
-            "item",
-            fix,
-            issues,
-            fixes,
-        )
 
     ensure_lang(resources, mod_id, blocks, items, fix, issues, fixes)
+    issues.extend(validate_resource_tree(resources))
 
     if fix and fixes:
-        issues, fixes_after = validate(project, fix=False)
+        issues, fixes_after = validate(project, fix=False, mod_id=mod_id)
         fixes.extend(fixes_after)
 
     return issues, fixes
@@ -341,10 +273,11 @@ def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate Forge 1.21.4 block/item assets.")
     parser.add_argument("--project", default=".", help="Forge project root")
-    parser.add_argument("--fix", action="store_true", help="create missing safe placeholder assets")
+    parser.add_argument("--mod-id", help="explicit content namespace for a multi-mod source project")
+    parser.add_argument("--fix", action="store_true", help="repair missing JSON metadata only; artwork is never fabricated")
     args = parser.parse_args()
 
-    issues, fixes = validate(Path(args.project), args.fix)
+    issues, fixes = validate(Path(args.project), args.fix, args.mod_id)
     for fix in fixes:
         print(f"FIXED: {fix}")
 

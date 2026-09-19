@@ -1,0 +1,145 @@
+2026-09-19T03:52:23.169847Z main WARN Advanced terminal features are not available in this environment
+[23:52:23] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forge_server, --nogui]
+[23:52:23] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.10+7-LTS
+[23:52:23] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 10.2.4 starting: java version 21.0.10 by Eclipse Adoptium; OS Mac OS X arch aarch64 version 13.5
+[23:52:23] [main/INFO] [ne.mi.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forge_server
+[23:52:23] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=jar:file:///Users/homebase/zion-supercharge-verification/server/libraries/org/spongepowered/mixin/0.8.7/mixin-0.8.7.jar!/ Service=ModLauncher Env=SERVER
+[23:52:23] [main/INFO] [ne.mi.fm.lo.mo.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[23:52:23] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forge_server' with arguments [--nogui]
+[23:52:26] [modloading-worker-0/INFO] [realistic_sheep/]: [RealisticSheep] Sheep drops are now more realistic and Minecraft-friendly.
+[23:52:26] [modloading-worker-0/INFO] [co.zi.yo.YodaPlushieMod/]: [YodaPlushie] Awake and ready!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.fu.FurnitureMod/]: Furniture 2.0 mod loaded! All 14 furniture blocks ready.
+[23:52:26] [modloading-worker-0/INFO] [co.zi.gr.GroceryStandMod/]: [GroceryStand] Open for business! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.li.LightsaberMod/]: [Lightsaber] May the Force be with you!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.wo.WoodFillMod/]: [WoodFill] SPAM mod loaded! Get the SPAM Axe and type /spam!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.gi.GiantSpiderBossMod/]: [GiantSpiderBoss] Mod loaded ? watch out for the big ones!
+[23:52:26] [modloading-worker-0/INFO] [billionenchants/]: Billion Enchants loading...
+[23:52:26] [modloading-worker-0/INFO] [co.zi.om.OmniPickMod/]: [Omni Pick] Break EVERYTHING! ??
+[23:52:26] [modloading-worker-0/INFO] [co.zi.py.ZionPyjamasMod/]: [Pyjamas] ? Sleepy armor mod loaded! Only equippable at night!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionExcavatorMod/]: [Excavator] Loaded! DIG DIG DIG! Now with damage!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionFurnitureMod/]: [Zion's Furniture] Home sweet home! ?
+[23:52:26] [modloading-worker-0/INFO] [realnature/]: Real Nature mod loaded! Type /realworld to grow a real forest all around you!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionPhoneMod/]: [ZionPhone] Loaded!
+[23:52:26] [modloading-worker-0/INFO] [lifelike/]: Lifelike World mod loaded! Type /lifelike to make the world look real!
+[23:52:26] [modloading-worker-0/INFO] [skysky/]: Sky Castle mod loaded! Type /skycastle to summon a castle!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.op.OpSwordsMod/]: [OP Swords] 4 legendary blades! ??
+[23:52:26] [modloading-worker-0/INFO] [pillow_fort/]: Pillow Fort mod loaded! Craft 9 pillows into a pillow fort!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.gu.GunsMod/]: ? GUNS 2.0 loaded! 14 guns ready to fire!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.sa.SafeMod/]: [Safe] Safe and secure! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionCameraMod/]: [ZionCamera] Say cheese! Camera mod loaded!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.we.WebSwingingMod/]: [WebSwinging] Swinging in! ??
+[23:52:26] [modloading-worker-0/INFO] [co.zi.yo.YodaPiggyBankMod/]: [YodaPiggyBank] A wise piggy bank I am. Hmph!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionBlueChainsawMod/]: [Blue Chainsaw Mod] VROOOOM! Loaded!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionRainbowDoor/]: ? Zion Rainbow Door mod loaded!
+[23:52:26] [modloading-worker-0/INFO] [house/]: Giant House mod loaded! Type /house to build!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionGunsMod/]: [Zion's Guns] 3 guns loaded! Hold right-click to shoot, reload when empty!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.re.ZionRealisticMod/]: [Realistic World] XP makes the world more real!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionChainsawMod/]: [Blue Chainsaw] Loaded! VROOM VROOM!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.he.HealthGeneratorMod/]: [Health Generator] 100 hearts of POWER! ?
+[23:52:26] [modloading-worker-0/INFO] [rainbow_potion/]: ? Rainbow Potion ? smallness & ginormousis!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.je.JetpackMod/]: [Zion Jetpack] Fly like a superhero! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.la.LaserBlasterMod/]: [Super Laser Blaster] Loaded! Pew pew pew! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ca.CamoMod/]: [CamoMod] Now you see me... ?
+[23:52:26] [modloading-worker-0/INFO] [rainbow/]: ? Rainbow Gear mod loaded! Type /rainbowgear!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.co.ZionCodeGuns/]: [Code Guns] 6 secret guns: ax3fd, 5vvx, 77hyj, ovcxz, 12233, zaq29!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.su.SuperJumpMod/]: [Super Jump Boots] You can now touch the sun! ??
+[23:52:26] [modloading-worker-0/INFO] [co.zi.mo.MorphStickMod/]: [MorphStick] Hit a mob, then right-click to become it!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ve.ZionVehiclesMod/]: Zion's Vehicles mod loaded! ?????
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ra.RainbowRecipesMod/]: ? Rainbow & Bedrock Crafting mod loaded! Craft rainbow gear from Rainbow Blocks. Craft bedrock gear from bedrock!
+[23:52:26] [modloading-worker-0/INFO] [zion_telescope/]: ? Zion's Telescope ? look at the stars!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ga.GazillionHeartsMod/]: [Gazillion Hearts] Unlimited power! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.bl.BlockHeartsMod/]: [Block Hearts] Break blocks, get hearts! ?
+[23:52:26] [modloading-worker-0/INFO] [block_drops/]: ? Block Drops ? break blocks, get guns!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ba.BattleTruckMod/]: [BattleTruck] VROOOOM! Monster truck ready to roll! ?
+[23:52:26] [modloading-worker-0/INFO] [co.zi.bi.BillionInventoryMod/]: [BillionInventory] Infinite pockets activated!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.st.StepFartMod/]: [StepFart] Tooting up! *pffft*
+[23:52:26] [modloading-worker-0/INFO] [co.zi.ne.NetherDragonMod/]: [NetherDragon] The Nether Dragon awakens! ??
+[23:52:26] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 54.1.0, for MC 1.21.4 with MCP 20241203.143248
+[23:52:26] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v54.1.0 Initialized
+[23:52:26] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Opening jdk.naming.dns/com.sun.jndi.dns to java.naming
+[23:52:26] [modloading-worker-0/INFO] [co.zi.gi.GiantSpiderBossMod/]: [GiantSpiderBoss] Common setup complete.
+[23:52:26] [modloading-worker-0/INFO] [billionenchants/]: Billion Enchants loaded! Every enchantment is MAX levels!
+[23:52:26] [modloading-worker-0/INFO] [co.zi.zi.ZionCameraMod/]: [ZionCamera] Common setup complete.
+[23:52:26] [modloading-worker-0/INFO] [enchant_everything/]: [EnchantEverything] Mod loaded! Enchant any item with anything!
+[23:52:27] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[23:52:27] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: OUTDATED Current: 54.1.0 Target: 54.1.14
+[23:52:27] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[23:52:27] [main/WARN] [minecraft/Pack]: Missing metadata in pack mod:billionenchants
+[23:52:27] [main/WARN] [minecraft/Pack]: Missing metadata in pack mod:realnature
+[23:52:27] [main/WARN] [minecraft/Pack]: Missing metadata in pack mod:lifelike
+[23:52:27] [main/WARN] [minecraft/Pack]: Missing metadata in pack mod:rainbow
+[23:52:27] [main/WARN] [minecraft/Pack]: Missing metadata in pack mod:house
+[23:52:27] [main/WARN] [minecraft/MinecraftServer]: Missing data pack mod:billionenchants
+[23:52:27] [main/WARN] [minecraft/MinecraftServer]: Missing data pack mod:realnature
+[23:52:27] [main/WARN] [minecraft/MinecraftServer]: Missing data pack mod:lifelike
+[23:52:27] [main/WARN] [minecraft/MinecraftServer]: Missing data pack mod:rainbow
+[23:52:27] [main/WARN] [minecraft/MinecraftServer]: Missing data pack mod:house
+[23:52:28] [main/INFO] [minecraft/RecipeManager]: Loaded 1392 recipes
+[23:52:28] [main/INFO] [minecraft/AdvancementTree]: Loaded 1481 advancements
+[23:52:28] [Server thread/INFO] [minecraft/DedicatedServer]: Starting minecraft server version 1.21.4
+[23:52:28] [Server thread/INFO] [minecraft/DedicatedServer]: Loading properties
+[23:52:28] [Server thread/INFO] [minecraft/DedicatedServer]: Default game type: CREATIVE
+[23:52:28] [Server thread/INFO] [minecraft/MinecraftServer]: Generating keypair
+[23:52:28] [Server thread/INFO] [minecraft/DedicatedServer]: Starting Minecraft server on 127.0.0.1:25575
+[23:52:28] [Server thread/INFO] [minecraft/ServerConnectionListener]: Using default channel type
+[23:52:28] [Server thread/WARN] [minecraft/DedicatedServer]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[23:52:28] [Server thread/WARN] [minecraft/DedicatedServer]: The server will make no attempt to authenticate usernames. Beware.
+[23:52:28] [Server thread/WARN] [minecraft/DedicatedServer]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[23:52:28] [Server thread/WARN] [minecraft/DedicatedServer]: To change this, set "online-mode" to "true" in the server.properties file.
+[23:52:28] [Server thread/INFO] [minecraft/DedicatedServer]: Preparing level "verification-world"
+[23:52:28] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for dimension minecraft:overworld
+[23:52:28] [Worker-Main-7/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 0%
+[23:52:29] [Server thread/INFO] [minecraft/LoggerChunkProgressListener]: Time elapsed: 171 ms
+[23:52:29] [Server thread/INFO] [minecraft/DedicatedServer]: Done (0.263s)! For help, type "help"
+[23:52:29] [Server thread/INFO] [ne.mi.se.pe.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[23:52:39] [Server thread/INFO] [minecraft/PlayerList]: ZionProof[/127.0.0.1:58600] logged in with entity id 14 at (1.75, 102.64999997615814, 4.0)
+[23:52:39] [Server thread/INFO] [minecraft/MinecraftServer]: ZionProof joined the game
+[23:52:39] [Server thread/INFO] [co.zi.re.ZionRealisticMod/]: [Realistic World] Player ZionProof logged in with XP 0 (Tier 0)
+[23:52:40] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gamerule sendCommandFeedback is now set to: false]
+[23:52:40] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Set the time to 1000]
+[23:52:40] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Set the weather to clear]
+[23:52:40] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Teleported ZionProof to 0.500000, 102.000000, 0.500000]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Killed entity.zion_showcase.rainbow_motorcycle]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Summoned new entity.zion_showcase.rainbow_motorcycle]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at -4, 101, 5]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at -2, 101, 5]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 0, 101, 5]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 2, 101, 5]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 4, 101, 5]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at -4, 101, 8]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at -2, 101, 8]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 0, 101, 8]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 2, 101, 8]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Changed the block at 4, 101, 8]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Removed 12 item(s) from player ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [item.zion_showcase.shiny_sword] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [item.zion_showcase.rainbow_motorcycle] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.fridge] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.stove] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.oven] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.grill] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.bookshelf] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.chair] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.sofa] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.sink] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.toilet] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Gave 1 [block.zion_showcase.shower] to ZionProof]
+[23:52:42] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Teleported ZionProof to 8.500000, 104.000000, 12.500000]
+[23:52:48] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Teleported ZionProof to 3.500000, 101.300000, 4.500000]
+[23:52:53] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Teleported ZionProof to 3.500000, 102.000000, 5.500000]
+[23:52:56] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: Teleported ZionProof to 0.500000, 102.000000, 0.500000]
+[23:52:56] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: ZionProof started riding entity.zion_showcase.rainbow_motorcycle]
+[23:53:07] [Server thread/INFO] [minecraft/MinecraftServer]: [ZionProof: ZionProof stopped riding entity.zion_showcase.rainbow_motorcycle]
+[23:53:09] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: ZionProof lost connection: Disconnected
+[23:53:09] [Server thread/INFO] [minecraft/MinecraftServer]: ZionProof left the game
+[23:54:09] [Server thread/INFO] [minecraft/MinecraftServer]: Server empty for 60 seconds, pausing
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[verification-world]'/minecraft:overworld
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[verification-world]'/minecraft:the_nether
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[verification-world]'/minecraft:the_end
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (verification-world): All chunks are saved
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23:56:22] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved

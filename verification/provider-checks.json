@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-18",
+  "checks": [
+    {
+      "name": "openrouter_tool_call",
+      "model": "z-ai/glm-5.3-flash",
+      "status": "passed",
+      "evidence": "Real forced report_ready tool call returned ready:true",
+      "tokens": 174
+    },
+    {
+      "name": "installed_hermes_coding_tool",
+      "hermes": "0.12.0",
+      "model": "z-ai/glm-5.3-flash",
+      "status": "passed",
+      "evidence": "Hermes wrote and read an isolated GLM_TOOL_OK marker using its terminal tool; process exit0 and marker independently checked"
+    },
+    {
+      "name": "image_api",
+      "model": "openai/gpt-image-2.5-sunburst",
+      "status": "passed",
+      "asset": "artwork/fridge-icon.png",
+      "sha256": "5d5c1fcd89157b1ae22148f8d33a2544eebe7678808db13a51de2e0b830521d7",
+      "evidence": "Real new-key request; decoded, normalized to64x64RGBA, alpha validated and visually inspected"
+    },
+    {
+      "name": "jev_evidence_gateway",
+      "model": "jev-1.13.0",
+      "status": "passed",
+      "advisory": true,
+      "request_id": "zion-new-key-tool-check-20260918-v1",
+      "choice": "supported",
+      "confidence": 0.32,
+      "evidence": "Gateway returned a semantic judgment; repeated same request ID reused result"
+    },
+    {
+      "name": "gateway_restart",
+      "status": "passed",
+      "evidence": "Configured default GLM model and OpenRouter endpoint; targeted gateway restart returned0; launch service state running"
+    }
+  ],
+  "limits": "These checks prove provider connectivity and tool operation. They do not prove Minecraft client rendering, gameplay, or the final mod artifact."
+}

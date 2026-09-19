@@ -445,7 +445,7 @@
 <div class="container">
   <span class="creeper">🟩</span>
   <div class="title">ZION'S MOD BUILDER</div>
-  <div class="subtitle">✨ Type what you want &amp; press BUILD! ✨</div>
+  <div class="subtitle">✨ Items, furniture, rooms, houses — tell us your idea! ✨</div>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('builder')">⚒️ BUILD</button>
@@ -459,9 +459,9 @@
       <button class="quick-btn" onclick="setRequest('Add a fire dragon boss that drops diamonds')">🐉 Fire Dragon Boss</button>
       <button class="quick-btn" onclick="setRequest('Add a rainbow sword that shoots lightning')">⚡ Lightning Sword</button>
       <button class="quick-btn" onclick="setRequest('Add a friendly unicorn pet that follows me')">🦄 Unicorn Pet</button>
-      <button class="quick-btn" onclick="setRequest('Add a giant spider boss with 100 health')">🕷️ Giant Spider Boss</button>
-      <button class="quick-btn" onclick="setRequest('Add super diamond armor that glows blue')">💎 Glow Armor</button>
-      <button class="quick-btn" onclick="setRequest('Add a magic wand that spawns TNT explosions')">💥 Magic Wand</button>
+      <button class="quick-btn" onclick="setRequest('Make a realistic kitchen with a fridge, stove, oven, sink, and grill')">🍳 Working Kitchen</button>
+      <button class="quick-btn" onclick="setRequest('Make a rideable rainbow motorcycle with shiny wheels')">🏍️ Motorcycle</button>
+      <button class="quick-btn" onclick="setRequest('Build a house with a bedroom, kitchen, bathroom, sitting room, and chill room')">🏠 Dream House</button>
       <button class="quick-btn" onclick="setRequest('Add a secret underground candy dungeon with treasure')">🍬 Candy Dungeon</button>
       <button class="quick-btn" onclick="setRequest('Add a robot wolf that helps me fight enemies')">🤖 Robot Wolf</button>
     </div>
@@ -477,10 +477,15 @@
     </button>
   </div>
 
-  <div class="status-box" id="statusBox">
+  <div class="status-box" id="statusBox" role="status" aria-live="polite">
     <div class="status-label idle" id="statusLabel">STATUS</div>
     <div class="status-text" id="statusText">Ready to build something awesome! 🎮</div>
     <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="quick-picks" style="margin-top:12px">
+    <button class="quick-btn" id="cancelBtn" hidden onclick="jobAction('cancel')">Stop build</button>
+    <button class="quick-btn" id="resumeBtn" hidden onclick="jobAction('resume')">Resume checks</button>
+    <button class="quick-btn" id="retryBtn" hidden onclick="jobAction('retry')">Repair and retry</button>
   </div>
 
   </div><!-- end tab-builder -->
@@ -521,82 +526,79 @@ function setRequest(text) {
 }
 
 let pollInterval = null;
+let currentJobId = null;
 
-function startBuild() {
+async function postJob(path, body) {
+  const response = await fetch(path, {
+    method: 'POST', headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  const data = await response.json();
+  if (!response.ok || data.error) throw new Error(data.error || 'The builder could not start this step.');
+  return data;
+}
+
+function beginPolling() {
+  clearInterval(pollInterval);
+  pollInterval = setInterval(checkStatus, 2000);
+  checkStatus();
+}
+
+async function startBuild() {
   const text = document.getElementById('request').value.trim();
-  if (!text) {
-    setStatus('error', 'ERROR', '⚠️ Type what you want first!');
-    return;
-  }
-
-  const btn = document.getElementById('buildBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ BUILDING...';
-
-  setStatus('running', '⚒️ BUILDING YOUR MOD...', '🔨 The AI is working on it!\nThis takes 2-5 minutes...\n\nDon\'t close this window! ✨');
-
-  // Show progress bar
-  const pb = document.getElementById('progressBar');
-  pb.classList.add('active');
-  pb.querySelector('.progress-fill').style.animation = 'none';
-  void pb.querySelector('.progress-fill').offsetHeight; // reflow
-  pb.querySelector('.progress-fill').style.animation = 'progress 90s linear forwards';
-
-  fetch('/build', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ request: text })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.error) {
-      doneBuilding('error', data.error);
-    } else {
-      pollInterval = setInterval(checkStatus, 3000);
-    }
-  })
-  .catch(e => doneBuilding('error', 'Could not connect to the builder. Is it running?'));
-}
-
-function checkStatus() {
-  fetch('/status')
-    .then(r => r.json())
-    .then(data => {
-      if (data.status === 'done') {
-        clearInterval(pollInterval);
-        doneBuilding('done', data.text);
-      } else if (data.status === 'error') {
-        clearInterval(pollInterval);
-        doneBuilding('error', data.text);
-      }
-    })
-    .catch(() => {});
-}
-
-function doneBuilding(type, text) {
-  const btn = document.getElementById('buildBtn');
-  btn.disabled = false;
-  btn.textContent = '⚒️ BUILD IT!';
-
-  document.getElementById('progressBar').classList.remove('active');
-
-  if (type === 'done') {
-    setStatus('done', '✅ DONE! JOIN THE GAME!', '🎉 Your mod is installed!\n\n' + cleanOutput(text));
-  } else {
-    setStatus('error', '❌ SOMETHING WENT WRONG', text);
+  if (!text) return setStatus('error', 'ADD YOUR IDEA', 'Type what you want to create first.');
+  document.getElementById('buildBtn').disabled = true;
+  setStatus('running', 'STARTING', 'Saving your idea and starting the builder…');
+  try {
+    const data = await postJob('/build', {request: text});
+    currentJobId = data.id;
+    beginPolling();
+  } catch (error) {
+    document.getElementById('buildBtn').disabled = false;
+    setStatus('error', 'COULD NOT START', error.message);
   }
 }
 
-function cleanOutput(text) {
-  // Extract the last meaningful line(s) for kid display
-  const lines = text.split('\n').filter(l => l.trim());
-  // Look for success messages
-  const successLine = lines.find(l =>
-    l.includes('Server') || l.includes('restart') || l.includes('Done') ||
-    l.includes('install') || l.includes('ready') || l.includes('READY')
-  );
-  if (successLine) return successLine;
-  return lines[lines.length - 1] || 'All done!';
+async function jobAction(action) {
+  if (!currentJobId) return;
+  try {
+    await postJob('/' + action, {id: currentJobId});
+    beginPolling();
+  } catch (error) {
+    setStatus('error', 'STEP NOT STARTED', error.message);
+  }
+}
+
+async function checkStatus() {
+  try {
+    const response = await fetch('/status' + (currentJobId ? '?id=' + encodeURIComponent(currentJobId) : ''));
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Could not read the saved job.');
+    currentJobId = data.id || null;
+    const active = ['queued', 'running'].includes(data.status);
+    const labels = {
+      queued: 'QUEUED', running: 'BUILDING YOUR CREATION',
+      awaiting_verification: 'BUILT — GAME CHECKS STILL NEEDED',
+      awaiting_review: 'BUILT — REVIEW STILL NEEDED',
+      succeeded: 'VERIFIED — READY FOR INSTALLATION',
+      failed: 'BUILD NEEDS REPAIR', interrupted: 'PROGRESS SAVED',
+      cancelled: 'BUILD STOPPED', idle: 'READY'
+    };
+    const type = active ? 'running' : (['failed', 'interrupted'].includes(data.status) ? 'error' : (data.status === 'succeeded' ? 'done' : 'idle'));
+    setStatus(type, labels[data.status] || 'SAVED JOB', data.text);
+    const button = document.getElementById('buildBtn');
+    button.disabled = active;
+    button.textContent = active ? '⏳ BUILDING…' : '⚒️ BUILD IT!';
+    document.getElementById('progressBar').classList.toggle('active', active);
+    document.getElementById('cancelBtn').hidden = !active;
+    document.getElementById('resumeBtn').hidden = !['interrupted', 'cancelled', 'awaiting_verification', 'awaiting_review'].includes(data.status);
+    document.getElementById('retryBtn').hidden = !['failed', 'interrupted', 'awaiting_verification', 'awaiting_review'].includes(data.status) || data.attempts >= 3;
+    if (data.terminal) { clearInterval(pollInterval); pollInterval = null; }
+    else if (!pollInterval) beginPolling();
+  } catch (error) {
+    setStatus('error', 'CONNECTION LOST', 'The saved job may still be running. Reconnecting to check its actual status…');
+    if (!pollInterval) pollInterval = setInterval(checkStatus, 3000);
+  }
 }
 
 function setStatus(type, label, text) {
@@ -635,6 +637,10 @@ function loadLibrary() {
     });
 }
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[char]));
+}
+
 function renderLibrary(mods) {
   const grid = document.getElementById('libraryGrid');
   if (!mods.length) {
@@ -642,20 +648,29 @@ function renderLibrary(mods) {
     return;
   }
   grid.innerHTML = mods.map(mod => {
-    const iconHtml = mod.icon
-      ? `<img class="mod-card-icon" src="${mod.icon}" alt="${mod.name}">`
+    const safeIcon = /^(?:\/?mods\/icons\/[a-zA-Z0-9_.-]+\.png|\/jobs\/[a-f0-9]{32}\/icon)$/.test(mod.icon || '') ? '/' + mod.icon.replace(/^\//, '') : null;
+    const iconHtml = safeIcon
+      ? `<img class="mod-card-icon" src="${safeIcon}" alt="${escapeHtml(mod.name)}">`
       : `<div class="mod-card-icon-placeholder">${typeEmoji(mod.type)}</div>`;
     const date = mod.built ? mod.built.split('T')[0] : '';
+    const statuses = {
+      installed: 'Installed · files verified', verified: 'Verified · not installed',
+      needs_checks: 'Built · game checks needed', building: 'Build in progress',
+      failed: 'Needs repair', cancelled: 'Build stopped', interrupted: 'Progress saved',
+      awaiting_review: 'Needs requirement review', legacy: 'Saved · installation unverified'
+    };
+    const commands = Array.isArray(mod.commands) ? mod.commands.filter(value => typeof value === 'string') : [];
     return `
       <div class="mod-card">
         ${iconHtml}
-        <div class="mod-name">${mod.name}</div>
-        <div class="mod-desc">${mod.description || ''}</div>
+        <div class="mod-name">${escapeHtml(mod.name)}</div>
+        <div class="mod-desc">${escapeHtml(mod.description)}</div>
         <div class="mod-badges">
-          ${mod.type ? `<span class="badge badge-type">${mod.type}</span>` : ''}
-          ${date ? `<span class="badge badge-date">${date}</span>` : ''}
-          ${mod.status === 'active' ? '<span class="badge badge-active">✓ active</span>' : ''}
+          ${mod.type ? `<span class="badge badge-type">${escapeHtml(mod.type)}</span>` : ''}
+          ${date ? `<span class="badge badge-date">${escapeHtml(date)}</span>` : ''}
+          <span class="badge ${mod.status === 'installed' ? 'badge-active' : 'badge-date'}">${escapeHtml(statuses[mod.status] || statuses.legacy)}</span>
         </div>
+        ${commands.length ? `<details style="margin-top:10px"><summary class="mod-desc">Slash commands</summary><div class="mod-desc" style="white-space:pre-wrap">${commands.map(escapeHtml).join('\n')}</div></details>` : ''}
       </div>`;
   }).join('');
 }
@@ -664,6 +679,7 @@ function typeEmoji(type) {
   const map = { mob: '👾', item: '⚔️', block: '🟫', boss: '💀', biome: '🌲', weapon: '⚔️', armor: '🛡️' };
   return map[(type || '').toLowerCase()] || '📦';
 }
+beginPolling();
 </script>
 </body>
 </html>

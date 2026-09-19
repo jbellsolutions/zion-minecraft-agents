@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "original": "artwork/shiny_sword.original.png",
+  "output": "mods/zion-supercharge/src/main/resources/assets/zion_showcase/textures/item/shiny_sword.png",
+  "prompt": "A super shiny magical Minecraft sword, silver blade with icy blue metallic highlights, gold crossguard, violet wrapped grip, crisp pixel art and transparent background.",
+  "sha256": "251c34fa21f837231d6235c9623f03122445fe4e12c126d1abce1c7d1d971d0f",
+  "visual_review": "passed: recognizable sword silhouette, metallic highlights, transparent alpha"
+}

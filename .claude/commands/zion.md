@@ -1,8 +1,4 @@
-You are the Orchestrator for Zion's Minecraft AI Agent Stack.
-
-Read the full orchestrator instructions from:
-zion-mc-agents/agents/orchestrator.md
-
-Then process this request from Zion:
+Read `skills/zion/SKILL.md` and the canonical `agents/orchestrator.md`.
+Process the request through the same durable Hermes jobs used by the UI:
 
 $ARGUMENTS

@@ -1,244 +1,73 @@
-<div align="center">
-
-# Zy Java Coding Mod Academy
-
-### Type what you want. The AI builds it. Your server restarts. Zero steps.
-
-[![Claude Code](https://img.shields.io/badge/Runs%20on-Claude%20Code-6366f1)](https://claude.ai/code)
-[![Minecraft Forge](https://img.shields.io/badge/Minecraft-Forge%201.21.4-00AA00?logo=minecraft)](https://files.minecraftforge.net)
-[![Java 21](https://img.shields.io/badge/Java-21-orange?logo=openjdk)](https://openjdk.org/projects/jdk/21/)
-[![Part of Zy AI Academy](https://img.shields.io/badge/Part%20of-Zy%20AI%20Academy-blue)](https://zyaiacademy.com)
-
-</div>
-
----
-
-## Welcome
-
-This is the Java Minecraft Mod Builder from Zy AI Academy — the same AI system Zion uses to build real mods for his own Minecraft server.
-
-Your child types something like:
-
-> "Add a fire dragon that spawns in the Nether"
-
-And the AI:
-1. Writes the Java Forge mod
-2. Compiles it
-3. Installs it on your server
-4. Backs up your existing mods first (automatically)
-5. Restarts the server
-6. Tells you it's done ✅
-
-No coding required from the parent. No command line. Just plain English.
-
----
-
-## Before We Start — Do You Have Hermes Installed?
-
-This system runs on **Hermes**, a self-improving AI agent that gets smarter every time it builds a mod.
-
-Answer one question and follow the right path:
-
-**Open your Terminal app (Mac: press `⌘ + Space`, type "Terminal", hit Enter) and type:**
-
-```bash
-hermes
-```
-
----
-
-### ✅ YES — Hermes is installed (it opened or showed a menu)
-
-You're ready. Jump to Step 2.
-
----
-
-**Step 2: Clone this repo**
-
-```bash
-git clone https://github.com/jbellsolutions/zion-minecraft-agents
-```
-
-**Step 3: Run the setup script**
-
-```bash
-cd zion-minecraft-agents && ./setup.sh
-```
-
-The setup script will:
-- Ask where your Minecraft server is located
-- Configure all 5 agents with your server path
-- Verify Java 21 and Claude Code are installed
-- Make everything executable
-
-**Step 4: Open the repo in Claude Code**
-
-```bash
-claude zion-minecraft-agents/
-```
-
-Then type your first request:
-
-```
-/zion make something cool
-```
-
----
-
-### ❌ NO — Hermes isn't installed yet
-
-No problem. It takes about 5 minutes.
-
-**Step 1: Install Hermes**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
-```
-
-```bash
-source ~/.zshrc
-```
-
-Verify it worked:
-
-```bash
-hermes
-```
-
-You should see a menu. If you do, Hermes is installed.
-
-**Step 2: Set up Telegram (optional — lets you talk to it from your phone)**
-
-```bash
-hermes gateway setup
-```
-
-Follow the prompts — it walks you through creating a Telegram bot in 2 minutes. When done:
-
-```bash
-hermes gateway start
-```
-
-Now you can send your child's mod requests from your phone and get back a "done!" message when the server restarts.
-
-**Step 3: Now follow the YES path above** — clone the repo, run setup.sh, open in Claude Code.
-
----
-
-## What Gets Installed
-
-| Agent | What It Does |
-|-------|-------------|
-| **Orchestrator** | Routes your child's requests — usually picks the coolest version and builds it, asks only when truly needed |
-| **Mod Agent** | Writes Java Forge 1.21.4 mods (mobs, items, blocks, weapons, bosses) — full source, compiles first try |
-| **World Builder** | Generates biomes, structures, dungeons, terrain |
-| **Lore Agent** | Creates quests, NPC dialogue, data packs, books |
-| **Deploy Agent** | Backs up mods, compiles, installs JAR, restarts server — then confirms it's live |
-| **Icon Agent** | Generates a Minecraft-style pixel art icon for every mod your child builds |
-
-All agents run with Zion's rules:
-- Never leave the server broken
-- Always backup before installing
-- Keep everything kid-friendly
-- Ask one short question only when blocked by safety, destructive changes, incompatible choices, or an unknown target mod
-
----
-
-## How to Use It
-
-Once set up, your child opens Claude Code in the repo folder and just types:
-
-```
-Add a fire dragon boss in the Nether
-```
-
-```
-Make a sword that shoots lightning
-```
-
-```
-Create a new biome with rainbow trees
-```
-
-```
-Add a villager that sells enchanted diamond tools
-```
-
-Or use the slash command:
-
-```
-/zion <whatever your child wants>
-```
-
-The agents figure out the rest. One request in → working mod in the game.
-
----
-
-## Rollback
-
-If a mod breaks something, type:
-
-```
-/rollback
-```
-
-The deploy agent lists your last 5 backups and restores whichever one you pick. Server comes back up clean.
-
----
-
-## Mod Library
-
-Every mod your child builds gets added to `mods/library.json` automatically — name, type, date, icon. The UI at `http://localhost:8080` shows your whole collection as a browsable card grid.
-
----
-
-## Requirements
-
-Before running setup.sh, make sure you have:
-
-| Requirement | How to Install |
-|-------------|---------------|
-| macOS (tested on Mac mini M-series) | — |
-| Claude Code CLI | `npm install -g @anthropic-ai/claude-code` |
-| Java 21 | `brew install openjdk@21` |
-| Minecraft Forge 1.21.4 server (set up locally) | [forge.minecraftforge.net](https://files.minecraftforge.net) |
-| Hermes agent | `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh \| bash` |
-
-For icon generation (optional):
-- `OPENAI_API_KEY` in your environment (for DALL-E pixel art icons)
-
----
-
-## Reliability Guards
-
-Hermes runs local guard scripts before deploy:
-
-- `tools/forge_asset_guard.py` checks Forge 1.21.4 item/block assets and prevents purple-and-black missing textures.
-- `tools/hermes_datapack_guard.py` checks Minecraft 1.21.4 data packs, including `pack_format: 61`, JSON validity, namespaces, and function syntax.
-
-## Hermes Skill Pack
-
-Feed these skills to Hermes when building Zion's mods:
-
-- `skills/hermes-minecraft-superbuilder/SKILL.md` — end-to-end build/update/repair workflow for cool, complex playable Minecraft requests.
-- `skills/forge-1214-assets/SKILL.md` — Forge 1.21.4 asset contract that prevents missing textures.
-- `skills/zion/SKILL.md` — the full Zion pipeline: route, build, validate, deploy, and report how to play.
-
----
-
-## Dropped This Into Claude Code or Codex?
-
-If you're reading this inside an AI session and want the AI to walk you through setup interactively, say:
-
-> "Walk me through setting up the Minecraft mod builder. Start by checking if Hermes is installed."
-
-The AI will check your environment, ask the right questions, and configure everything step by step.
-
----
-
-## Part of Zy AI Academy
-
-This is the free coding bonus included with every Zy AI Academy purchase.
-
-← [Back to Zy AI Academy](https://github.com/jbellsolutions/zy-ai-academy)
-🌐 [zyaiacademy.com](https://zyaiacademy.com)
+# Zion’s Minecraft Builder
+
+Build imaginative Minecraft creations with Hermes, GLM5.3 Flash, generated inventory
+art, durable jobs and evidence checks. Targets **Minecraft Java1.21.4, Forge54.1.0
+and Java21**. Existing worlds and legacy mod IDs are preserved.
+
+![Yoda driving the rainbow motorcycle in the actual Minecraft test client](verification/client/screenshots/motorcycle-hero.png)
+
+## Rainbow motorcycle and showcase
+
+The included `mods/zion-supercharge` project provides `zion_builder` and `zion_showcase`:
+
+- A rainbow motorcycle with a modeled Yoda driver and a rear seat for the player.
+  W drives, S brakes, A/D steer, Space+W activates turbo, Shift dismounts.
+  Turbo targets1,000mph; actual speed is displayed. Swept collision checks and
+  unloaded-terrain checks stop the motorcycle safely.
+- A shiny sword with transparent inventory artwork and a held model.
+- Fridge storage, book storage, cooking appliances, seats and bathroom fixtures
+  with recognizable geometry and usable interactions.
+- Bedroom, kitchen, bathroom, sitting room, chill room and house presets with
+  protected placement, persistent progress and an undo journal.
+
+Try `/zion spawn rainbow_motorcycle`, `/zion give shiny_sword`, `/zion list` or
+`/zion preview kitchen` in the game. Mutation commands require operator permission.
+`/zion place kitchen` checks the space before building; `/zion find` shows progress;
+`/zion undo` preserves player changes and refuses to discard stored items.
+`/zion keep` keeps a finished build and clears its undo record so another can begin.
+
+## Builder workflow
+
+Telegram and the local browser share `tools/zion_jobs.py`. Requests, attempts,
+generated files, errors and cancellation survive a UI restart. A failed provider
+process is a failed build; unfinished verification is shown explicitly.
+
+The coding adapter invokes the installed Hermes agent with
+`z-ai/glm-5.3-flash` through OpenRouter. `tools/zion_art.py` uses the dedicated image
+endpoint, validates alpha and produces64×64 inventory PNGs. Furniture can also use
+its detailed3D block model as its inventory icon.
+
+Every creation has a versioned manifest containing capabilities, resource IDs,
+assets, commands, artifacts and verification evidence. The validator decodes PNGs,
+resolves resource references, checks packaged bytes and binds test reports to JAR
+hashes. Minecraft1.21.4 item definitions and resource/data formats46/61 are enforced.
+
+Jev reviews request coverage and evidence through the approved shared gateway.
+Its result is advisory: supported, contradicted, insufficient or unavailable.
+It cannot replace compiling, joining the server, rendering or testing gameplay.
+
+## Installation and development
+
+Install Python dependencies from `requirements-builder.txt`. The shared runner
+uses Hermes from PATH or `HERMES_EXECUTABLE`. Keep credentials in private runtime
+configuration. Install the three repository skills with `tools/install_hermes_skills.py`;
+the installer preserves existing learned skills and detects conflicting names.
+
+The Forge project and template contain the official Gradle8.8 wrapper. Build the
+showcase with `./gradlew build` inside `mods/zion-supercharge`. Run the real game
+tests with `./gradlew -PzionGameTests runGameTestServer`. Development tests and the
+opt-in graphical harness are excluded from release JARs.
+
+Run `python -m unittest discover -s tests -v` and `python tests/test_smoke.py` for
+builder/deployment regression checks. CI also compiles the pinned Forge project.
+
+Deployment is an explicit validated step. The deployer backs up exact artifacts and
+the stopped world/configuration, identifies the affected client and server, installs
+matching bytes, checks fresh startup and recovers a failed installation. It never
+clears a world lock or kills unrelated Java processes.
+
+See [the approved plan](docs/supercharge-plan.md),
+[builder operations](docs/builder-operations.md),
+[deployment and recovery](docs/deployment.md),
+[provider test evidence](verification/provider-checks.json), and
+[gameplay evidence](mods/zion-supercharge/verification/build-and-gameplay.json).

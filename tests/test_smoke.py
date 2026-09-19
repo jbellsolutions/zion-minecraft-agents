@@ -4,6 +4,7 @@ Tests that required files exist and are valid, and that the UI server
 imports cleanly. No live server or Claude API calls needed.
 """
 import json
+import ast
 import os
 import sys
 import importlib.util
@@ -76,11 +77,7 @@ def test_json_files_valid():
 
 def test_ui_server_syntax():
     """ui/server.py must have valid Python syntax."""
-    spec = importlib.util.spec_from_file_location("server", ROOT / "ui" / "server.py")
-    assert spec is not None, "Could not load ui/server.py"
-    module = importlib.util.module_from_spec(spec)
-    # Just loading the spec validates syntax; don't execute
-    assert module is not None
+    ast.parse((ROOT / "ui" / "server.py").read_text())
 
 
 def test_skill_md_exists():
@@ -88,15 +85,15 @@ def test_skill_md_exists():
     skill_path = ROOT / "skills" / "zion" / "SKILL.md"
     assert skill_path.exists(), "skills/zion/SKILL.md missing"
     content = skill_path.read_text()
-    assert "Iron Law" in content, "SKILL.md missing Iron Law section"
-    assert "## Phase" in content, "SKILL.md missing Phase sections"
+    for contract in ("tools/zion_jobs.py", "output/creation.json", "/zion cancel", "successful process exit is not"):
+        assert contract in content, f"SKILL.md missing builder contract: {contract}"
 
 
 def test_hermes_skills_exist():
     """Hermes support skills must exist with their core guardrails."""
     skills = {
         "forge-1214-assets": "assets/<modid>/items",
-        "hermes-minecraft-superbuilder": "Question policy",
+        "hermes-minecraft-superbuilder": "capture runtime evidence",
     }
     for skill_name, expected in skills.items():
         skill_path = ROOT / "skills" / skill_name / "SKILL.md"
@@ -126,7 +123,7 @@ def test_datapack_guard_accepts_1214_pack():
             json.dumps({"pack": {"pack_format": 61, "description": "test pack"}}),
             encoding="utf-8",
         )
-        namespace = pack / "data" / "zionmc" / "functions"
+        namespace = pack / "data" / "zionmc" / "function"
         namespace.mkdir(parents=True)
         (namespace / "load.mcfunction").write_text("say Hermes data pack loaded\n", encoding="utf-8")
         result = subprocess.run(

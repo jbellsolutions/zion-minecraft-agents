@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "original": "artwork/rainbow_motorcycle.original.png",
+  "output": "mods/zion-supercharge/src/main/resources/assets/zion_showcase/textures/item/rainbow_motorcycle.png",
+  "prompt": "Minecraft inventory icon: shiny rainbow motorcycle, chrome handlebars, two black wheels, rainbow body panels and black saddle, crisp pixel art, transparent background.",
+  "sha256": "c01436ce0bc02630caff762179d496b1cb658e5aa392e7289b3e1d10ea1fa927",
+  "visual_review": "passed: recognizable motorcycle, rainbow tank and fenders, wheels and chrome; Yoda is represented in the entity model"
+}

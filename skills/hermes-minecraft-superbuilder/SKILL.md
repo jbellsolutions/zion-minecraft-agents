@@ -1,85 +1,33 @@
 ---
 name: hermes-minecraft-superbuilder
-description: Use when Hermes builds, updates, repairs, or deploys Zion's Minecraft Java Edition 1.21.4 Forge mods, data packs, quests, structures, powers, pets, bosses, or adventure content.
+description: Implement complex Minecraft 1.21.4 Forge features with complete behavior, inventory artwork, slash commands, build evidence, and safe deployment. Use for multi-part creations and upgrades to existing Zion mods.
 ---
 
-# Hermes Minecraft Superbuilder
+# Complete Minecraft creations
 
-Hermes turns Zion's request into something playable on the server. The default is to make a fun,
-safe creative decision and keep moving.
+Read the `zion` skill for command routing and durable jobs. Keep the installed
+`minecraft-forge-authority` skill as the source of learned Forge patterns. Prefer
+relevant references for seats, rideable entities, block inventories, shaders, item
+definitions, and structure commands over unverified Java examples.
 
-## Question policy
+Translate a broad request into explicit capabilities with observable behavior:
 
-Ask exactly one short question only when blocked by:
-- safety or comfort
-- destructive world/server changes
-- incompatible choices with no good hybrid
-- an update request where the target mod cannot be identified
+- **Kitchen:** fridge stores items, stove/oven cooks, grill has a cooking interaction,
+  clear doors and counters, lighting, and a way to find/place each object.
+- **Bedroom/sitting/chill room:** usable seats or beds, sensible proportions, storage,
+  doors, bookshelves, lighting, and a distinct visual style.
+- **Vehicle:** mounting, movement/steering, collision, dismounting, persistence, and
+  a summon command. A decorative model does not satisfy a rideable vehicle request.
+- **Sword/tool:** visible silhouette, shine/highlights, appropriate hand-held model,
+  usable behavior, recipe or creative access, and a give/test command.
+- **House:** connected layout, usable rooms, bounded placement, site inspection,
+  and a placement undo record. Deployment rollback does not undo construction.
 
-Otherwise choose the most fun playable interpretation and build.
+Use unique namespaces for new creations and preserve IDs for updates. Handle normal
+creative ambiguity autonomously and make the chosen interpretation visible in the
+manifest. State any feature that remains incomplete rather than relabeling it complete.
 
-## Pick a build mode
-
-- **Quick Mod**: one item, block, command, or simple behavior.
-- **Feature Mod**: item/block/entity with assets, recipe, drops, and a way to test.
-- **Adventure Pack**: mod + data pack + structure/biome + quest/lore.
-- **Update Pass**: inspect existing source and add/change behavior without breaking old features.
-- **Repair Pass**: read build output/logs, fix the cause, rebuild, redeploy safely.
-
-## Build standards
-
-Every finished build needs:
-- exact mod/data-pack IDs
-- client assets for every Forge item/block
-- recipes or creative-tab access for new items
-- loot/spawn/command path when relevant
-- a visible in-game feedback loop: title, sound, particles, drop, advancement, or reward
-- a way Zion can try it immediately
-
-## Required gates
-
-Before deploy:
-```bash
-python3 tools/forge_asset_guard.py --project <mod-project-root> --fix
-python3 tools/hermes_datapack_guard.py --project <data-pack-root> --fix
-```
-
-Run only the guard that applies. Forge source must also compile and produce a JAR. Data packs for
-Minecraft 1.21.4 must use `pack_format: 61`.
-
-## Feature patterns
-
-**Boss**: custom entity, spawn egg or command, health/damage tuning, two-phase behavior if feasible,
-drop table, advancement, sound/particle feedback, safe spawn location.
-
-**Pet**: tame/follow/protect behavior, owner-friendly targeting, healing or feeding item, optional
-ride behavior, clear command or spawn egg.
-
-**Power item**: right-click action, cooldown, durability or fuel cost, particles/sound, recipe,
-creative-tab access, guard against griefy world damage unless explicitly requested.
-
-**Leveling gear**: persistent item state, visible name/lore change, clear XP source, capped upgrades,
-repair path, no server-breaking infinite loop.
-
-**Adventure**: one clear objective, one cool place or enemy, one reward, one clue to the next step,
-immediate `/locate`, summon, or test command.
-
-## Update pass
-
-For "make it cooler" requests:
-1. Identify the target mod from source, JAR name, registry IDs, or logs.
-2. Preserve existing IDs unless a rename is required.
-3. Add the smallest complete feature that satisfies the request.
-4. Re-run guards, build checks, and deployment checks.
-5. Report what changed and how to try it.
-
-## Output to Zion
-
-Use plain, excited language:
-```
-Done! Your lightning boots are in the game.
-Try them from the Zion Items tab, then jump twice to dash through the air.
-```
-
-Do not show stack traces to Zion. Summarize failures simply, keep the server playable, and route exact
-technical errors back into the repair pass.
+The target is Minecraft 1.21.4 / Forge 54.1.0 / Java 21 / Gradle 8.8. Resource-pack
+format is 46; data-pack format is 61. Every item needs its 1.21.4 client item definition.
+Run source guards, compile, inspect the final archive, and capture runtime evidence
+separately. Icons and meaningful slash commands are part of the creation before deploy.

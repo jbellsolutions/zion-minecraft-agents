@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " R ",
+    "ISI",
+    "B B"
+  ],
+  "key": {
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:saddle",
+    "B": "minecraft:black_wool"
+  },
+  "result": {
+    "id": "zion_showcase:rainbow_motorcycle",
+    "count": 1
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "mods": [
+    {
+      "id": "zion_showcase",
+      "name": "Zion Supercharged Showcase",
+      "type": "creation",
+      "icon": "/mods/icons/zion_showcase.png",
+      "description": "A rideable rainbow motorcycle with Yoda and 1,000 mph turbo, a shiny sword, working furniture, five furnished rooms, and a house. Includes safe placement and undo.",
+      "status": "verified",
+      "creation_sha256": "ae62eccd1ab6c66ef7a935027dacefb5e32eded5a5e4f600c1b085cbe57d328b",
+      "artifact_sha256s": [
+        "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93"
+      ],
+      "commands": [
+        "/zion give bookshelf",
+        "/zion give chair",
+        "/zion give fridge",
+        "/zion give grill",
+        "/zion give oven",
+        "/zion give rainbow_motorcycle",
+        "/zion give shiny_sword",
+        "/zion give shower",
+        "/zion give sink",
+        "/zion give sofa",
+        "/zion give stove",
+        "/zion give toilet",
+        "/zion spawn rainbow_motorcycle",
+        "/zion place bedroom",
+        "/zion place kitchen",
+        "/zion place bathroom",
+        "/zion place sitting_room",
+        "/zion place chill_room",
+        "/zion place house"
+      ]
+    }
+  ]
+}

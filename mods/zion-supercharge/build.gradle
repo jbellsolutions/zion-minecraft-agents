@@ -1,0 +1,84 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '6.0.54'
+}
+version = '1.0.0'
+group = 'com.zion'
+java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
+if (project.hasProperty('zionGameTests')) {
+    sourceSets.main.java.srcDir 'src/gameTest/java'
+    sourceSets.main.resources.srcDir 'src/gameTest/resources'
+}
+if (project.hasProperty('zionClientProof')) {
+    sourceSets.main.java.srcDir(project.findProperty('zionClientProofSources') ?: '../../test-support/client/java')
+}
+minecraft {
+    mappings channel: 'official', version: '1.21.4'
+    reobf = false
+    copyIdeResources = true
+    runs {
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'info'
+        }
+        client {
+            if (project.hasProperty('zionClientProof')) {
+                property 'zion.clientProof', 'true'
+                property 'zion.proofDirectory', project.findProperty('zionProofDirectory') ?: '/Users/homebase/zion-supercharge-verification/client-proof'
+                property 'zion.proofArtifact', project.findProperty('zionProofArtifact') ?: 'unknown'
+                args '--username', 'ZionProof'
+            }
+        }
+        server { args '--nogui' }
+        gameTestServer { property 'forge.enabledGameTestNamespaces', 'zion_showcase' }
+    }
+}
+repositories { maven { url = 'https://maven.minecraftforge.net/' }; mavenCentral() }
+dependencies { minecraft 'net.minecraftforge:forge:1.21.4-54.1.0' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+jar {
+    manifest { attributes 'Implementation-Version': project.version }
+    // Proof and GameTest sources can be present for development runs, but never
+    // travel in a player-facing artifact, even if build uses the same -P flags.
+    exclude 'com/zion/proof/**', 'com/zion/showcase/ShowcaseGameTests*',
+            'data/zion_showcase/structure/test_arena.nbt'
+}
+tasks.named('sourcesJar', Jar) {
+    exclude 'com/zion/proof/**', 'com/zion/showcase/ShowcaseGameTests*',
+            'data/zion_showcase/structure/test_arena.nbt'
+}
+tasks.register('verifyReleaseJar') {
+    dependsOn tasks.named('jar')
+    doLast {
+        def artifact = tasks.named('jar').get().archiveFile.get().asFile
+        new java.util.zip.ZipFile(artifact).withCloseable { zip ->
+            def forbidden = zip.entries().findAll { entry ->
+                entry.name.startsWith('com/zion/proof/') ||
+                entry.name.startsWith('com/zion/showcase/ShowcaseGameTests') ||
+                entry.name == 'data/zion_showcase/structure/test_arena.nbt'
+            }
+            if (!forbidden.isEmpty()) {
+                throw new GradleException('Release JAR contains development-only proof or test files')
+            }
+        }
+    }
+}
+tasks.named('check') { dependsOn tasks.named('verifyReleaseJar') }
+// Forge54.1 runs official names and discovers a single combined classes/resources directory.
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourceSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
+tasks.named('wrapper', Wrapper) { gradleVersion = '8.8'; distributionType = Wrapper.DistributionType.BIN }
+// The Forge launcher sometimes exits zero after a startup failure. Require actual game-test proof.
+tasks.matching { it.name == 'runGameTestServer' }.configureEach {
+    long testStartedAt = 0L
+    doFirst { testStartedAt = System.currentTimeMillis() }
+    doLast {
+        def log = file('run/logs/latest.log')
+        if (!log.exists() || log.lastModified() < testStartedAt || !(log.text =~ /All [1-9][0-9]* required tests passed/)) {
+            throw new GradleException('Minecraft did not report all required game tests passed; inspect run/logs/latest.log.')
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "initial_screen": "net.minecraftforge.client.gui.LoadingErrorScreen",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "endpoint": "127.0.0.1:25575",
+  "initial-screen": "screenshot callback: Saved screenshot as initial-screen.png",
+  "client_join": true,
+  "player": "ZionProof",
+  "showcase-scene": "screenshot callback: Saved screenshot as showcase-scene.png",
+  "motorcycle-hero": "screenshot callback: Saved screenshot as motorcycle-hero.png",
+  "inventory-icons": "screenshot callback: Saved screenshot as inventory-icons.png",
+  "held-sword": "screenshot callback: Saved screenshot as held-sword.png",
+  "mounted_vehicle": "zion_showcase:rainbow_motorcycle",
+  "yoda-passenger": "screenshot callback: Saved screenshot as yoda-passenger.png",
+  "ride_start": [
+    0.5,
+    101.87,
+    3.45
+  ],
+  "ride_end": [
+    0.5,
+    101.87,
+    3.45
+  ],
+  "turbo-ride": "screenshot callback: Saved screenshot as turbo-ride.png",
+  "completed_capture_sequence": true
+}

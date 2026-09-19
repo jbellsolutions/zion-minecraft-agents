@@ -1,0 +1,17 @@
+{
+  "check": "client_join",
+  "status": "passed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "observations": {
+    "client_join": true,
+    "mounted_vehicle": "zion_showcase:rainbow_motorcycle",
+    "endpoint": "isolated loopback test server",
+    "player": "ZionProof"
+  },
+  "proof_files": [
+    {
+      "path": "proof/client/client-proof.json",
+      "sha256": "ed50852fc346f93f2f7a33ab4a36de76fd0f061a7cce782a1b49b3941561d070"
+    }
+  ]
+}

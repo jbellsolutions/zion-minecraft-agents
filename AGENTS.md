@@ -1,58 +1,47 @@
-# AGENTS.md — zion-minecraft-agents
+# Zion Minecraft agents
 
-Multi-agent system for Zion's Minecraft mod builder. Each agent has a single job.
+The root `agents/` directory is canonical. Legacy files under `zion-mc-agents/agents/`
+forward here. Use the installed `minecraft-forge-authority` skill's learned patterns;
+this repository adds durable jobs, complete assets, and safe deployment.
 
-## Agent Pipeline
+## Pipeline
 
-```
-User Request
-     │
-     ▼
-orchestrator          ← routes request, asks only when truly needed
-     │
-     ├──► mod-agent        ← Java mods (mobs, items, blocks, armor, tools)
-     ├──► world-builder    ← JSON datapacks (biomes, structures, loot tables)
-     ├──► lore-agent       ← Quests, NPC dialogue, books, story
-     │
-     ▼
-deploy-agent          ← installs files, restarts server
-```
+1. Orchestrator turns natural language or `/zion` into explicit capabilities.
+2. Builder specialists implement source, artwork, commands, and validation evidence.
+3. The durable runner validates `output/creation.json`; process exit alone is insufficient.
+4. Deployer installs exact validated artifacts to both server and client, then verifies
+   server startup. Client rendering and gameplay checks remain separate evidence.
 
-## Agent Files
+| Agent | Canonical instructions |
+| --- | --- |
+| Orchestrator | `agents/orchestrator.md` |
+| Mod builder | `agents/mod-agent.md` |
+| World builder | `agents/world-builder.md` |
+| Lore writer | `agents/lore-agent.md` |
+| Icon creator | `agents/icon-agent.md` |
+| Deployer | `agents/deploy-agent.md` |
 
-| Agent | File | Responsibility |
-|-------|------|----------------|
-| Orchestrator | `agents/orchestrator.md` | Routes requests, asks only when truly needed |
-| Mod Builder | `agents/mod-agent.md` | Java Forge 1.21.4 mods |
-| World Builder | `agents/world-builder.md` | JSON datapacks |
-| Lore Writer | `agents/lore-agent.md` | Story, quests, books |
-| Deployer | `agents/deploy-agent.md` | Install + server restart |
-| Session Orchestrator | `.claude/agents/main-agent.md` | Repo health brief + routing |
+## Runtime rules
 
-## AGI-1 Integration
+- Minecraft 1.21.4, Forge 54.1.0, Java 21, Gradle 8.8. Resource-pack format 46;
+  data-pack format 61. The Forge template lives in `zion-mc-agents/templates/`.
+- Use `tools/zion_jobs.py` and the same Hermes provider for Telegram and UI work.
+  Keep workspaces, manifests, cancellation, retries, and evidence durable.
+- Preserve existing mod/registry IDs on updates. Give new creations unique namespaces.
+- Generate recognizable inventory artwork before compiling; library thumbnails are
+  additional previews. Every creation needs useful in-game slash commands.
+- Run applicable asset/datapack guards, compile, inspect final artifacts, and validate
+  the creation manifest. A guard's metadata repair does not complete missing artwork.
+- Use `tools/zion_deploy.py` for all installs and rollbacks. Back up exact affected
+  files, gracefully stop the verified server PID, install, start, and check a fresh log.
+  Never broadly kill processes, delete session.lock, or replace whole mods/world folders.
+- Apply world mutations on the server thread, in bounded batches, with safe placement
+  and a separate undo record. Mod-file rollback does not undo world construction.
+- Keep credentials, private runtime configuration, chat records, and worlds out of Git.
+- Jev checks requirements against evidence via the configured gateway; it is advisory.
+  Record unavailable honestly and continue local validation when that service is down.
+- Handle ordinary creative ambiguity autonomously. Explain concrete limitations and
+  never claim unperformed gameplay or visual checks passed. Keep output friendly for Zion.
 
-This repo runs on the [AGI-1 framework](https://github.com/jbellsolutions/agi-1).
-
-Install AGI-1 then open this repo in Claude Code:
-```bash
-git clone https://github.com/jbellsolutions/agi-1 ~/.claude/skills/agi-1
-cd ~/.claude/skills/agi-1 && ./setup
-```
-
-Available commands once installed:
-- `/agi-main` — Session orchestrator with repo health brief
-- `/agi-1` — Full upgrade pipeline
-- `/agi-heal` — Fix errors against known patterns
-- `/agi-learn` — Extract insights from observations
-- `/agi-audit` — Score the repo (G-Stack + AI Blueprint)
-
-## Rules
-
-1. Orchestrator usually makes a creative decision and runs; it asks one short question only when the build is genuinely blocked, unsafe, or depends on a high-impact choice
-2. Deploy agent ALWAYS backs up before changing anything
-3. Deploy agent ALWAYS restarts the server after installing
-4. If deployment fails, restore the backup and restart the server
-5. Keep everything kid-friendly — Zion is 5 years old
-6. Forge mods MUST pass `tools/forge_asset_guard.py --fix` before build/deploy
-7. Data packs MUST pass `tools/hermes_datapack_guard.py --fix` before deploy
-8. Every completed build MUST tell Zion where to find it or how to try it immediately
+Run relevant tests without production side effects. Deployment tests use temporary
+server/client folders and fake lifecycle control. Never test failure recovery on Zion's world.

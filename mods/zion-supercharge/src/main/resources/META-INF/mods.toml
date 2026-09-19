@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[54,)"
+license="MIT"
+[[mods]]
+modId="zion_builder"
+version="1.0.0"
+displayName="Zion Builder"
+description='''Safe room building, a persistent undo journal, and one /zion command library.'''
+[[mods]]
+modId="zion_showcase"
+version="1.0.0"
+displayName="Zion Supercharged Showcase"
+description='''Rainbow motorcycle with Yoda, a shiny sword, and working modern furniture.'''
+[[dependencies.zion_showcase]]
+modId="forge"
+mandatory=true
+versionRange="[54.1.0,55)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.zion_showcase]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.21.4,1.21.5)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.zion_builder]]
+modId="zion_showcase"
+mandatory=true
+versionRange="[1.0.0,2)"
+ordering="AFTER"
+side="BOTH"

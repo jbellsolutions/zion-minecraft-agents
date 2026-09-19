@@ -1,0 +1,12 @@
+{
+  "check": "server_start",
+  "status": "passed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "observations": "Final candidate server reached readiness and accepted the test client with existing legacy content.",
+  "proof_files": [
+    {
+      "path": "proof/server/final-candidate-start.log",
+      "sha256": "5e4b17e2c8d22fecdfbdc1a4d922f585df3acd33e91cdc05a3a893ce37e02ae5"
+    }
+  ]
+}

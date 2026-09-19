@@ -1,0 +1,30 @@
+{
+  "artifact": "mods/zion-supercharge/build/libs/zion-supercharge-1.0.0.jar",
+  "sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "minecraft": "1.21.4",
+  "forge": "54.1.0",
+  "java": 21,
+  "compile": "passed",
+  "asset_guard": "passed",
+  "game_tests": {
+    "passed": 10,
+    "failed": 0,
+    "log": "gametest-run.log",
+    "checks": [
+      "storage_exact_reload",
+      "all_three_cooking_appliances_and_resume",
+      "chair_mount_and_removal_dismount",
+      "measured_1000mph_turbo_brake_park_reload",
+      "swept_wall_collision",
+      "occupied_build_preflight_bounded_progress_persisted_journal_protected_undo",
+      "keep_preserves_furniture_inventory_and_allows_next_build",
+      "survival_non_operator_motorcycle_placement_consumes_item",
+      "appliance_break_releases_smelting_experience",
+      "entity_entering_queued_build_pauses_before_placement"
+    ],
+    "actual_world_run": "2026-09-19T03:49:40Z"
+  },
+  "release_excludes_test_classes": true,
+  "client_visual_verification": "pending",
+  "release_verification_task": "passed"
+}

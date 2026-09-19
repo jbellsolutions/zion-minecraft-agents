@@ -12,12 +12,19 @@ from pathlib import Path
 
 EXPECTED_PACK_FORMAT = 61
 VALID_NAMESPACE_RE = re.compile(r"^[a-z0-9_.-]+$")
+LEGACY_DIRECTORIES = {
+    "structures": "structure", "advancements": "advancement", "recipes": "recipe",
+    "loot_tables": "loot_table", "predicates": "predicate", "item_modifiers": "item_modifier",
+    "functions": "function",
+}
+LEGACY_TAGS = {"functions", "items", "blocks", "entity_types", "fluids", "game_events"}
+COMMANDS = set("advancement attribute ban ban-ip banlist bossbar clear clone damage data datapack debug defaultgamemode deop difficulty effect enchant execute experience fill fillbiome forceload function gamemode gamerule give help item jfr kick kill list locate loot me msg op pardon pardon-ip particle perf place playsound publish random recipe reload return ride rotate save-all save-off save-on say schedule scoreboard seed setblock setidletimeout setworldspawn spawnpoint spectate spreadplayers stop stopsound summon tag team teammsg teleport tell tellraw tick time title tm tp transfer trigger w weather whitelist worldborder xp zion".split())
 
 
 def read_json(path: Path, issues: list[str]) -> object | None:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, UnicodeError) as exc:
         issues.append(f"{path} is invalid JSON: {exc}")
     except OSError as exc:
         issues.append(f"{path} could not be read: {exc}")
@@ -44,6 +51,7 @@ def validate_pack_mcmeta(project: Path, fix: bool, issues: list[str], fixes: lis
 
     data = read_json(path, issues)
     if not isinstance(data, dict):
+        issues.append(f"{path} must contain a JSON object")
         return
     pack = data.setdefault("pack", {})
     if not isinstance(pack, dict):
@@ -73,21 +81,55 @@ def validate_namespaces(project: Path, issues: list[str]) -> None:
     for namespace in namespaces:
         if not VALID_NAMESPACE_RE.match(namespace):
             issues.append(f"namespace {namespace!r} must be lowercase letters, digits, underscores, dots, or hyphens")
+        root = data_root / namespace
+        if root.is_symlink():
+            issues.append(f"{root}: data pack symlinks are not supported")
+            continue
+        for old, new in LEGACY_DIRECTORIES.items():
+            if (root / old).exists():
+                issues.append(f"{root / old}: Minecraft 1.21.4 uses the singular directory {new}")
+        for old in LEGACY_TAGS:
+            if (root / "tags" / old).exists():
+                issues.append(f"{root / 'tags' / old}: use the singular registry name")
+        for path in root.rglob("*"):
+            if path.is_symlink():
+                issues.append(f"{path}: data pack symlinks are not supported")
+            if path.is_file() and not re.fullmatch(r"[a-z0-9_./-]+", path.relative_to(root).as_posix()):
+                issues.append(f"{path}: resource paths must use lowercase resource identifiers")
 
 
 def validate_json_files(project: Path, issues: list[str]) -> None:
     for path in sorted((project / "data").rglob("*.json")):
-        read_json(path, issues)
+        if not path.is_symlink():
+            read_json(path, issues)
 
 
 def validate_functions(project: Path, issues: list[str]) -> None:
     for path in sorted((project / "data").rglob("*.mcfunction")):
-        for line_no, raw_line in enumerate(path.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
+        if path.is_symlink():
+            continue
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except (OSError, UnicodeError) as exc:
+            issues.append(f"{path}: cannot read function: {exc}")
+            continue
+        for line_no, raw_line in enumerate(lines, 1):
             line = raw_line.strip()
             if not line or line.startswith("#"):
                 continue
             if line.startswith("/"):
                 issues.append(f"{path}:{line_no} function commands must not start with '/'")
+                continue
+            command = line.lstrip("$").split(None, 1)[0]
+            if command not in COMMANDS:
+                issues.append(f"{path}:{line_no} unknown command root {command!r}; custom roots require a runtime-backed validator")
+            for match in re.finditer(r"(?:^|\brun\s+)function\s+(#?)([a-z0-9_.-]+):([a-z0-9_./-]+)(?:\s|$)", line):
+                tag, namespace, name = match.groups()
+                if namespace == "minecraft":
+                    continue
+                target = project / "data" / namespace / ("tags/function" if tag else "function") / (name + (".json" if tag else ".mcfunction"))
+                if not target.is_file():
+                    issues.append(f"{path}:{line_no} missing referenced function {namespace}:{name}")
 
 
 def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
@@ -108,7 +150,7 @@ def validate(project: Path, fix: bool) -> tuple[list[str], list[str]]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate Minecraft 1.21.4 data packs.")
+    parser = argparse.ArgumentParser(description="Static Minecraft 1.21.4 data pack checks; runtime loading is still required.")
     parser.add_argument("--project", default=".", help="Data pack root containing pack.mcmeta")
     parser.add_argument("--fix", action="store_true", help="repair pack.mcmeta pack_format when possible")
     args = parser.parse_args()

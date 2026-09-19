@@ -1,0 +1,28 @@
+{
+  "model": "openai/gpt-image-2.5-sunburst",
+  "prompt": "A recognisable modern stainless-steel fridge with two doors and a black water dispenser, crisp Minecraft pixel-art inventory icon, isolated on transparent background Single recognisable Minecraft inventory icon. Crisp silhouette readable at 64 pixels. True transparent background, no text, no checkerboard or colored square backdrop.",
+  "width": 64,
+  "height": 64,
+  "sha256": "5d5c1fcd89157b1ae22148f8d33a2544eebe7678808db13a51de2e0b830521d7",
+  "alpha_validated": true,
+  "visual_review": "pending",
+  "usage": {
+    "prompt_tokens": 64,
+    "completion_tokens": 439,
+    "total_tokens": 503,
+    "cost": 0.01349,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01349,
+      "upstream_inference_prompt_cost": 0.00032,
+      "upstream_inference_completions_cost": 0.01317
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 439
+    }
+  }
+}

@@ -15,7 +15,8 @@ import net.minecraftforge.registries.ForgeRegistries;
  *       ENTITY_TYPES.register("example_mob",
  *           () -> EntityType.Builder.<ExampleEntity>of(ExampleEntity::new, MobCategory.MONSTER)
  *               .sized(1.0F, 1.5F)   // width, height
- *               .build("example_mob"));
+ *               .build(ResourceKey.create(Registries.ENTITY_TYPE,
+ *                   ResourceLocation.fromNamespaceAndPath(StarterMod.MOD_ID, "example_mob"))));
  *
  * Then in your mod main class or a ClientSetupEvent, register the renderer:
  *   EntityRenderers.register(ModEntities.EXAMPLE_MOB.get(), ExampleRenderer::new);

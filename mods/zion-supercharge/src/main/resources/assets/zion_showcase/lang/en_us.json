@@ -1,0 +1,16 @@
+{
+  "block.zion_showcase.bookshelf": "Bookshelf",
+  "block.zion_showcase.chair": "Chair",
+  "block.zion_showcase.fridge": "Fridge",
+  "block.zion_showcase.grill": "Grill",
+  "block.zion_showcase.oven": "Oven",
+  "block.zion_showcase.shower": "Shower",
+  "block.zion_showcase.sink": "Sink",
+  "block.zion_showcase.sofa": "Sofa",
+  "block.zion_showcase.stove": "Stove",
+  "block.zion_showcase.toilet": "Toilet",
+  "entity.zion_showcase.rainbow_motorcycle": "Yoda\u2019s Rainbow Motorcycle",
+  "item.zion_showcase.rainbow_motorcycle": "Yoda\u2019s Rainbow Motorcycle",
+  "item.zion_showcase.shiny_sword": "Zion\u2019s Shiny Sword",
+  "itemGroup.zion_showcase": "Zion Showcase Items"
+}

@@ -1,0 +1,8 @@
+{
+  "check": "artifact_parity",
+  "status": "passed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "client_production_classes_and_assets_compared": 65,
+  "differences": [],
+  "candidate_server_jar_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93"
+}

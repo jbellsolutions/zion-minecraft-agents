@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "zion_showcase:fridge",
+    "zion_showcase:grill",
+    "zion_showcase:stove",
+    "zion_showcase:oven",
+    "zion_showcase:bookshelf",
+    "zion_showcase:chair",
+    "zion_showcase:sofa",
+    "zion_showcase:sink",
+    "zion_showcase:toilet",
+    "zion_showcase:shower"
+  ]
+}

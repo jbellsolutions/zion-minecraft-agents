@@ -1,0 +1,13 @@
+{
+  "status": "deployed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "transaction_id": "20260919T040317-6988d1c04091",
+  "server_ready": true,
+  "live_server_running": true,
+  "server_client_artifacts_identical": true,
+  "world_snapshot_created": true,
+  "legacy_world_and_registry_ids_preserved": true,
+  "zion_telegram_registered": true,
+  "actual_live_client_join": "not_run: production server requires authenticated player; isolated matching-client join/render passed",
+  "jev_remote_configuration": "pending explicit token-storage approval; local approved gateway review passed"
+}

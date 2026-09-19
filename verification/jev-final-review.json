@@ -1,0 +1,32 @@
+{
+  "choice": "supported",
+  "advisory": true,
+  "request_id": "zion-showcase-final-8586f5f60b1c203d-v1",
+  "evidence_sha256": "dddbc3e2674058de9c4318b3710cf147a844afa6856eaf1f487519797a658658",
+  "gateway": {
+    "status": "available",
+    "advisory": true,
+    "purpose": "evidence",
+    "model": "jev-1.13.0",
+    "usage": {
+      "input_tokens": 2732,
+      "output_tokens": 49
+    },
+    "cost_usd": 0.000114744,
+    "latency_ms": 459,
+    "attempts": 1,
+    "judgment": {
+      "type": "choice",
+      "choice": "supported",
+      "probabilities": {
+        "contradicted": 0.0,
+        "insufficient_evidence": 0.02,
+        "supported": 0.98
+      },
+      "confidence": 0.97
+    },
+    "reserved_usd": 0.0,
+    "cost_upper_bound_usd": 0.000114744,
+    "billing_status": "charged"
+  }
+}

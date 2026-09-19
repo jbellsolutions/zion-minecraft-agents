@@ -1,0 +1,16 @@
+{
+  "check": "restart",
+  "status": "passed",
+  "artifact_sha256": "8586f5f60b1c203d170cd017b5d01832b4d866ee789e24a18be3837ea5970e93",
+  "server_ready_after_graceful_restart": true,
+  "persisted_motorcycle_query": [
+    "[23:58:57] [Server thread/INFO] [minecraft/MinecraftServer]: entity.zion_showcase.rainbow_motorcycle has the following entity data: [0.5d, 101.0d, 4.0d]"
+  ],
+  "log": "restart-final-console.log",
+  "proof_files": [
+    {
+      "path": "proof/server/restart-final-console.log",
+      "sha256": "955cac24e0a0d31d98259c398c70ee6b7d50dfd3de23b49bf3e4e68ce6cc78d0"
+    }
+  ]
+}

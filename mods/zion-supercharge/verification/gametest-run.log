@@ -1,0 +1,115 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Neither the 'eclipse' nor the 'idea' plugins were found, but IDE resource copy has been enabled.
+
+> Task :compileJava
+/Users/homebase/zion-supercharge-build/src/gameTest/java/com/zion/showcase/ShowcaseGameTests.java:45: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        ServerPlayer player=h.makeMockServerPlayerInLevel();BlockPos p=new BlockPos(3,1,3);h.setBlock(p,Showcase.block("chair"));
+                             ^
+/Users/homebase/zion-supercharge-build/src/gameTest/java/com/zion/showcase/ShowcaseGameTests.java:52: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        RainbowMotorcycle bike=h.spawn(Showcase.MOTORCYCLE.get(),new BlockPos(30,1,5));ServerPlayer player=h.makeMockServerPlayerInLevel();
+                                                                                                            ^
+/Users/homebase/zion-supercharge-build/src/gameTest/java/com/zion/showcase/ShowcaseGameTests.java:68: warning: [removal] makeMockServerPlayerInLevel() in GameTestHelper has been deprecated and marked for removal
+        RainbowMotorcycle bike=h.spawn(Showcase.MOTORCYCLE.get(),new BlockPos(30,1,5));ServerPlayer player=h.makeMockServerPlayerInLevel();player.startRiding(bike);
+                                                                                                            ^
+3 warnings
+
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :downloadMcpConfig
+> Task :extractSrg UP-TO-DATE
+> Task :createSrgToMcp UP-TO-DATE
+> Task :downloadMCMeta UP-TO-DATE
+> Task :downloadAssets UP-TO-DATE
+> Task :extractNatives UP-TO-DATE
+> Task :makeSrcDirs
+> Task :prepareRuns
+> Task :prepareRunGameTestServer
+> Task :prepareRunGameTestServerCompile
+
+> Task :runGameTestServer
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.glfw.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.3.3/ee8cc78d0a4a5b3b4600fade6d927c9fc320c858/lwjgl-glfw-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.jemalloc.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.3.3/e9412c3ff8cb3a3bad1d3f52909ad74d8a5bdad1/lwjgl-jemalloc-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.openal.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.3.3/c78b078de2fb52f45aa55d04db889a560f3544f/lwjgl-openal-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.opengl.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.3.3/d213ddef27637b1af87961ffa94d6b27036becc8/lwjgl-opengl-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.stb.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.3.3/51c6955571fbcdb7bb538c6aa589b953b584c6af/lwjgl-stb-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.tinyfd.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-tinyfd/3.3.3/406feedb977372085a61eb0fee358183f4f4c67a/lwjgl-tinyfd-3.3.3-natives-macos-arm64.jar!/]
+Ignoring duplicate module on SecureModuleFinder: org.lwjgl.natives: Jar[jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.3.3/226246e75f6bd8d4e1895bdce8638ef87808d114/lwjgl-3.3.3-natives-macos-arm64.jar!/]
+2026-09-19T03:49:33.625890Z main WARN Advanced terminal features are not available in this environment
+[23:49:33] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forge_userdev_server_gametest, --gameDir, .]
+[23:49:33] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.10+7-LTS
+[23:49:33] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 10.2.4 starting: java version 21.0.10 by Eclipse Adoptium; OS Mac OS X arch aarch64 version 13.5
+[23:49:33] [main/INFO] [ne.mi.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forge_userdev_server_gametest
+[23:49:33] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=jar:file:///Users/homebase/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.7/8ab114ac385e6dbdad5efafe28aba4df8120915f/mixin-0.8.7.jar!/ Service=ModLauncher Env=SERVER
+[23:49:34] [main/INFO] [ne.mi.fm.lo.mo.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[23:49:34] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forge_userdev_server_gametest' with arguments [--gameDir, .]
+[23:49:36] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Forge mod loading, version 54.1.0, for MC 1.21.4 with MCP 20241203.143248
+[23:49:36] [modloading-worker-0/INFO] [ne.mi.co.MinecraftForge/FORGE]: MinecraftForge v54.1.0 Initialized
+[23:49:36] [modloading-worker-0/INFO] [ne.mi.co.ForgeMod/FORGEMOD]: Opening jdk.naming.dns/com.sun.jndi.dns to java.naming
+[23:49:37] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[23:49:37] [Forge Version Check/INFO] [ne.mi.fm.VersionChecker/]: [forge] Found status: OUTDATED Current: 54.1.0 Target: 54.1.14
+[23:49:37] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[23:49:37] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Users/homebase/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.21.4-54.1.0_mapped_official_1.21.4/forge-1.21.4-54.1.0_mapped_official_1.21.4.jar%230!/assets/.mcassetsroot' uses unexpected schema
+[23:49:37] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/Users/homebase/.gradle/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.21.4-54.1.0_mapped_official_1.21.4/forge-1.21.4-54.1.0_mapped_official_1.21.4.jar%230!/data/.mcassetsroot' uses unexpected schema
+[23:49:38] [main/INFO] [minecraft/RecipeManager]: Loaded 1372 recipes
+[23:49:38] [main/INFO] [minecraft/AdvancementTree]: Loaded 1481 advancements
+[23:49:38] [main/INFO] [ne.mi.ga.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [zion_showcase]
+[23:49:38] [main/INFO] [minecraft/RecipeManager]: Loaded 1372 recipes
+[23:49:38] [main/INFO] [minecraft/AdvancementTree]: Loaded 1481 advancements
+[23:49:38] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for dimension minecraft:overworld
+[23:49:38] [Worker-Main-2/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 2%
+[23:49:38] [Server thread/INFO] [minecraft/LoggerChunkProgressListener]: Time elapsed: 54 ms
+[23:49:38] [Server thread/INFO] [minecraft/GameTestServer]: Started game test server
+[23:49:38] [Server thread/INFO] [minecraft/GameTestServer]: 10 tests are now running at position 2043187, -59, -12467857!
+[23:49:40] [Server thread/INFO] [minecraft/GameTestRunner]: Running test batch 'zion_showcase:0' (10 tests)...
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [          ]
+[23:49:40] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 2 at (7.5, -60.0, -0.5)
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[23:49:40] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 4 at (3.5, -60.0, 10.5)
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[23:49:40] [Server thread/INFO] [minecraft/PlayerList]: test-mock-player[embedded] logged in with entity id 6 at (-0.5, -60.0, 7.5)
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player joined the game
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [+_++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++_++++_]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: [++++++++++]
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: ========= 10 GAME TESTS COMPLETE IN 1.719 s ======================
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: All 10 required tests passed :)
+[23:49:40] [Server thread/INFO] [minecraft/GameTestServer]: ====================================================
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[23:49:40] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[23:49:40] [Server thread/INFO] [minecraft/ServerGamePacketListenerImpl]: test-mock-player lost connection: Server closed
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: test-mock-player left the game
+[23:49:40] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:overworld
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_nether
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[Test Level]'/minecraft:the_end
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (world): All chunks are saved
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[23:49:41] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[23:49:41] [Server thread/INFO] [minecraft/GameTestServer]: Game test server shutting down
+
+> Task :jar
+> Task :verifyReleaseJar
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.8/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 14s
+12 actionable tasks: 6 executed, 6 up-to-date

@@ -1,6 +1,6 @@
 ---
 name: forge-1214-assets
-description: Use when creating or fixing Minecraft Java Edition Forge 54.x / Minecraft 1.21.4 mods with custom items, blocks, models, or textures, especially when purple-and-black missing textures appear.
+description: Use when creating or fixing Minecraft Java Edition Forge 54.1.0 / Minecraft 1.21.4 mods with custom items, blocks, models, or textures, especially when purple-and-black missing textures appear.
 ---
 
 # Forge 1.21.4 Asset Guard
@@ -115,5 +115,7 @@ assets/<modid>/textures/block/crystal_block.png
 - Asset namespace folder must exactly match `mod_id`.
 - Registry names and asset filenames must be lowercase with underscores.
 - Texture references omit `.png`; texture files include `.png`.
-- PNG textures must be real files, square, and power-of-two sized. Use 16x16 placeholders if custom art is not ready.
+- PNG textures must decode successfully, be square, and have power-of-two dimensions. Standalone inventory artwork needs transparency and a recognizable silhouette. Use 64x64 release artwork where appropriate; never count generic placeholder squares as finished icons.
+- `--fix` repairs metadata, not artwork. Inspect a contact sheet and capture in-game client evidence separately.
+- Inventory artwork belongs in the JAR before deployment. A library thumbnail does not replace it.
 - Never leave a registered item or block without its `assets/<modid>/items/<name>.json` file in Minecraft 1.21.4.

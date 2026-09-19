@@ -1,7 +1,6 @@
 plugins {
     id 'java'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.minecraftforge.gradle' version '6.0.54'
 }
 
 version = mod_version
@@ -14,6 +13,7 @@ java {
 
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
+    reobf = false
 
     copyIdeResources = true
 
@@ -22,11 +22,6 @@ minecraft {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            mods {
-                "${mod_id}" {
-                    source sourceSets.main
-                }
-            }
         }
 
         client {
@@ -58,7 +53,7 @@ sourceSets.main.resources {
 
 repositories {
     maven { url = 'https://maven.minecraftforge.net/' }
-    maven { url = 'https://maven.parchmentmc.org' }
+    mavenCentral()
 }
 
 dependencies {
@@ -76,9 +71,33 @@ jar {
             'Implementation-Vendor' : mod_authors,
         ])
     }
-    finalizedBy('reobfJar')
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+// Forge 54.1 uses official names and discovers one combined output directory.
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourceSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
+}
+
+// Expand Forge metadata rather than shipping unresolved template variables.
+processResources {
+    def properties = [
+        minecraft_version_range: minecraft_version_range,
+        forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_id: mod_id, mod_name: mod_name, mod_version: mod_version,
+        mod_authors: mod_authors, mod_description: mod_description, mod_license: mod_license
+    ]
+    inputs.properties properties
+    filesMatching('META-INF/mods.toml') { expand properties }
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    gradleVersion = '8.8'
+    distributionType = Wrapper.DistributionType.BIN
 }

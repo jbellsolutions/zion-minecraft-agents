@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "zion_showcase:block/oven",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "zion_showcase:block/oven",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "zion_showcase:block/oven",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "zion_showcase:block/oven",
+      "y": 270
+    }
+  }
+}
