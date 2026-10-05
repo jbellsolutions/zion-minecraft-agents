@@ -26,6 +26,27 @@ Try `/zion spawn rainbow_motorcycle`, `/zion give shiny_sword`, `/zion list` or
 `/zion undo` preserves player changes and refuses to discard stored items.
 `/zion keep` keeps a finished build and clears its undo record so another can begin.
 
+## Quick start on a new computer
+
+```bash
+git clone https://github.com/jbellsolutions/zion-minecraft-agents.git
+cd zion-minecraft-agents
+pip install -r requirements-builder.txt          # Python 3, Pillow
+```
+
+- **Just want the mods?** Download `releases/zion-supercharge-update-1.1.0.zip`
+  (checksum in the `.sha256` next to it), or build from source with
+  `cd mods/zion-supercharge && ./gradlew build` (needs Java 21). Put the built JAR in the
+  `mods` folder of a **Minecraft Java 1.21.4 + Forge 54.1.0** profile.
+- **Want the Telegram / Hermes agent?** Install [Hermes](https://github.com/NousResearch/hermes-agent),
+  then run `python3 tools/install_hermes_skills.py --hermes-home ~/.hermes` to add the
+  `/zion` skills. Create your own Telegram bot with @BotFather and add its token and your
+  OpenRouter key in Hermes's private config, **never in this repo**. See
+  [deployment and recovery](docs/deployment.md) for the Telegram menu patch and server setup.
+- **Jev review (optional):** configure the gateway credentials privately. See
+  [builder operations](docs/builder-operations.md).
+- Check before sharing a fork: `python3 tools/check_public_secrets.py`.
+
 ## Builder workflow
 
 Telegram and the local browser share `tools/zion_jobs.py`. Requests, attempts,
